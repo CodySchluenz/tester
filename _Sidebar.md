@@ -9,6 +9,7 @@
 ### 📘 Runbooks
 
 * 📒 [Main Runbook](Main-Runbook)
+* 🧩 [Runbook Template](Runbook-Template)
 * [Gateway Runbook](Gateway-Runbook)
 * [Management Runbook](Management-Runbook)
 * [Developer Portal Runbook](Developer-Portal-Runbook)
@@ -16,4 +17,3 @@
 * [Infrastructure Runbook](Infrastructure-Runbook)
 * [Operations Runbook](Operations-Runbook)
 * [Maintenance Runbook](Maintenance-Runbook)
-* 🧩 [Runbook Template](Runbook-Template)
