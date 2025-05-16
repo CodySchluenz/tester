@@ -11,7 +11,7 @@
 * 📒 [Main Runbook](Main-Runbook)
 * [Gateway Runbook](Gateway-Runbook)
 * [Management Runbook](Management-Runbook)
-* [Portal Runbook](Portal-Runbook)
+* [Developer Portal Runbook](Developer-Portal-Runbook)
 * [Analytics Runbook](Analytics-Runbook)
 * [Infrastructure Runbook](Infrastructure-Runbook)
 * [Database Runbook](Database-Runbook)

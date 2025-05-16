@@ -1,6 +1,6 @@
 # API Connect Platform Wiki
 
-Welcome to the official documentation wiki for our IBM API Connect platform. This wiki serves as the central knowledge repository for architecture, development, operations, and support of our API management platform.
+Welcome to the official documentation wiki for our IBM API Connect platform(APIC). This wiki serves as the central knowledge repository for architecture, development, operations, and support of our API management platform.
 
 ## About API Connect
 

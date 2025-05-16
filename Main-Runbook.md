@@ -94,31 +94,44 @@ The incident management section describes known error conditions and instruction
    - Confirm alert receipt in PagerDuty
    - Join incident channel in MS Teams
    - Update ticket status in ServiceNow
+   - For P1/P2: Start conference bridge
 
 2. **Assess Impact and Severity**
    - Verify user impact using synthetic monitors in [Dynatrace](https://your-tenant.dynatrace.com/dashboards/api-connect-overview)
+   - Check [API Connect Real-Time Dashboard](https://your-tenant.dynatrace.com/dashboards/api-connect-real-time) for current traffic impact
    - Determine severity level using the [Severity Assessment](#severity-assessment) decision tree
    - Document initial findings in the incident ticket
 
 3. **Investigate and Diagnose**
    - Use the [Component Issue Identification](#component-issue-identification) decision tree
    - Follow the relevant component runbook
+   - Reference common queries from [Splunk Query Library](../Runbook-Operations#splunk-query-library)
+   - Apply the component-specific diagnostic workflow
    - Document all diagnostic steps taken
 
 4. **Implement Resolution**
    - Apply the resolution steps from the relevant runbook
+   - Follow standard change process for P3/P4 issues
+   - Use emergency change process for P1/P2 issues
    - Update stakeholders on progress
    - Document all actions taken
+   - Use component-specific verification tests to confirm resolution
 
 5. **Verify Resolution**
-   - Confirm issue resolution through monitoring
+   - Confirm issue resolution through:
+     - [Dynatrace Synthetic Monitors](https://your-tenant.dynatrace.com/synthetics)
+     - [API Connect Health Checks](https://your-tenant.dynatrace.com/synthetics/api-health)
+     - Component-specific verification steps
    - Verify with affected users if applicable
+   - Monitor for recurrence for at least 30 minutes
    - Update and resolve the incident in ServiceNow
 
 6. **Post-Incident Activities**
-   - Schedule post-incident review for P1/P2 incidents
+   - Schedule post-incident review for P1/P2 incidents within 48 hours
+   - Document timeline in standard template
    - Update runbooks with new learnings
-   - Create preventative action items
+   - Create preventative action items in backlog
+   - Update monitoring based on lessons learned
 
 ### Environment-Specific Considerations
 
@@ -242,12 +255,35 @@ This section provides high-level information about application and OS configurat
 
 ### Key Configuration Files
 
-| Component | Configuration Location | Purpose |
-|-----------|------------------------|---------|
-| Gateway | ConfigMap: gateway-config | API runtime settings |
-| Manager | ConfigMap: manager-config | Management UI settings |
-| Portal | ConfigMap: portal-config | Developer portal settings |
-| Analytics | ConfigMap: analytics-config | Metrics collection settings |
+| Component | Configuration Location | Purpose | Change Process |
+|-----------|------------------------|---------|----------------|
+| Gateway | ConfigMap: gateway-config | API runtime settings | GitOps pipeline |
+| Manager | ConfigMap: manager-config | Management UI settings | GitOps pipeline |
+| Portal | ConfigMap: portal-config | Developer portal settings | GitOps pipeline |
+| Analytics | ConfigMap: analytics-config | Metrics collection settings | GitOps pipeline |
+
+### Configuration Parameter Reference
+
+For each key component, critical configuration parameters to be aware of during incident response:
+
+#### Gateway Configuration Critical Parameters
+
+| Parameter | Purpose | Default Value | Impact if Misconfigured |
+|-----------|---------|--------------|--------------------------|
+| `maxConnections` | Maximum concurrent connections | 10000 | Connection rejection, API failures |
+| `timeoutSeconds` | Request timeout | 60 | Premature request termination |
+| `rateLimit.enabled` | Rate limiting toggle | true | Unprotected backend services |
+| `logging.level` | Log verbosity | info | Excessive or insufficient logging |
+| `tlsVersion` | Minimum TLS version | TLSv1.2 | Security vulnerabilities or client rejections |
+
+#### Management Configuration Critical Parameters
+
+| Parameter | Purpose | Default Value | Impact if Misconfigured |
+|-----------|---------|--------------|--------------------------|
+| `database.maxConnections` | DB connection pool size | 50 | Connection failures or resource exhaustion |
+| `sessionTimeout` | UI session timeout | 30m | Security risks or frequent logouts |
+| `deploymentTimeout` | API deployment timeout | 120s | Failed deployments |
+| `backupEnabled` | Configuration backup | true | Unrecoverable configuration changes |
 
 ### Configuration Management
 
@@ -268,19 +304,22 @@ This section provides a high-level overview of monitoring and alerting for API C
 
 ### Monitoring Tools
 
-| Tool | Purpose | Primary URL |
-|------|---------|------------|
-| Dynatrace | APM and monitoring | [Dynatrace Portal](https://your-tenant.dynatrace.com/) |
-| Splunk | Log aggregation and analysis | [Splunk Portal](https://splunk.your-company.com/) |
-| ServiceNow | Incident management | [ServiceNow Portal](https://your-instance.service-now.com/) |
+| Tool | Purpose | Primary URL | Alert Integration |
+|------|---------|------------|------------------|
+| Dynatrace | APM and monitoring | [Dynatrace Portal](https://your-tenant.dynatrace.com/) | ServiceNow, PagerDuty |
+| Splunk | Log aggregation and analysis | [Splunk Portal](https://splunk.your-company.com/) | ServiceNow, PagerDuty |
+| ServiceNow | Incident management | [ServiceNow Portal](https://your-instance.service-now.com/) | Email notifications |
+| AWS CloudWatch | AWS resource monitoring | [AWS Console](https://console.aws.amazon.com/cloudwatch/) | PagerDuty |
 
 ### Key Dashboards
 
-| Dashboard | Purpose | URL | Primary Audience |
-|-----------|---------|-----|-----------------|
-| API Connect Overview | Platform health | [Dashboard](https://your-tenant.dynatrace.com/dashboards/api-connect-overview) | All Teams |
-| Gateway Performance | Gateway metrics | [Dashboard](https://your-tenant.dynatrace.com/dashboards/gateway-performance) | SRE Team |
-| Business Impact | User experience | [Dashboard](https://your-tenant.dynatrace.com/dashboards/business-impact) | Product Team |
+| Dashboard | Purpose | URL | Primary Audience | Key Metrics |
+|-----------|---------|-----|-----------------|------------|
+| API Connect Overview | Platform health | [Dashboard](https://your-tenant.dynatrace.com/dashboards/api-connect-overview) | All Teams | Availability, error rates, response times |
+| Gateway Performance | Gateway metrics | [Dashboard](https://your-tenant.dynatrace.com/dashboards/gateway-performance) | SRE Team | Throughput, latency, error rates by API |
+| Business Impact | User experience | [Dashboard](https://your-tenant.dynatrace.com/dashboards/business-impact) | Product Team | Business transaction failures, customer impact |
+| Operational Health | Infrastructure status | [Dashboard](https://your-tenant.dynatrace.com/dashboards/operational-health) | SRE Team | Node status, pod health, resource utilization |
+| SLO Tracking | SLO compliance | [Dashboard](https://your-tenant.dynatrace.com/dashboards/slo-tracking) | SRE Team, Management | SLO metrics, error budgets, trend analysis |
 
 ### Alert Configuration
 
@@ -354,9 +393,11 @@ All changes follow our change management process:
 2. Categorize change (Standard, Normal, Emergency)
 3. Obtain appropriate approvals
 4. Schedule change window
-5. Implement change
-6. Verify change success
-7. Update documentation
+5. Execute pre-change validation checks
+6. Implement change
+7. Execute post-change validation checks
+8. Update documentation
+9. Close change record with results
 
 For detailed change management procedures, see the [SDLC](../SDLC#change-management) page.
 
@@ -383,10 +424,12 @@ Access the on-call schedule: [PagerDuty Schedule](https://your-org.pagerduty.com
 
 ### External Support
 
-| Vendor | Purpose | Contact Method | Contract ID |
-|--------|---------|---------------|-------------|
-| IBM | API Connect product support | [IBM Support](https://www.ibm.com/mysupport) | IBM-12345 |
-| AWS | Cloud infrastructure support | [AWS Support](https://console.aws.amazon.com/support/) | AWS-67890 |
+| Vendor | Purpose | Contact Method | Contract ID | Response SLA |
+|--------|---------|---------------|-------------|--------------|
+| IBM | API Connect product support | [IBM Support](https://www.ibm.com/mysupport) | IBM-12345 | P1: 1 hour, P2: 4 hours |
+| AWS | Cloud infrastructure support | [AWS Support](https://console.aws.amazon.com/support/) | AWS-67890 | Business Critical: 15 min |
+| Dynatrace | Monitoring platform support | [Dynatrace Support](https://support.dynatrace.com/) | DT-24680 | P1: 1 hour, P2: 4 hours |
+| Splunk | Log analysis platform support | [Splunk Support](https://www.splunk.com/en_us/support-and-services.html) | SP-13579 | P1: 1 hour, P2: 4 hours |
 
 ### Escalation Matrix
 
@@ -404,10 +447,24 @@ Access the on-call schedule: [PagerDuty Schedule](https://your-org.pagerduty.com
 3. SRE Team Lead (+2 hours)
 4. Engineering Manager (+4 hours)
 
+#### P3 Incidents
+1. Primary On-Call Engineer (immediate)
+2. SRE Team Lead (next business day if unresolved)
+
 ### Business Stakeholders
 
-| Role | When to Notify | Contact |
-|------|---------------|---------|
-| Product Owner | P1/P2 incidents | product-owner@your-company.com |
-| Business Unit Manager | P1 incidents > 1 hour | bu-manager@your-company.com |
-| Executive Team | P1 incidents > 2 hours | exec-escalation@your-company.com |
+| Role | When to Notify | Contact | Notification Template |
+|------|---------------|---------|------------------------|
+| Product Owner | P1/P2 incidents | product-owner@your-company.com | [Product Notification Template](../Runbook-Operations#product-notification) |
+| Business Unit Manager | P1 incidents > 1 hour | bu-manager@your-company.com | [BU Notification Template](../Runbook-Operations#bu-notification) |
+| Executive Team | P1 incidents > 2 hours | exec-escalation@your-company.com | [Executive Notification Template](../Runbook-Operations#executive-notification) |
+| Customer Success | Customer-impacting incidents | customer-success@your-company.com | [CS Notification Template](../Runbook-Operations#cs-notification) |
+
+### Cross-Team Collaboration
+
+| Team | Collaboration Scenario | Contact Method | Response Expectation |
+|------|------------------------|----------------|----------------------|
+| Network Team | Connectivity/routing issues | #network-support Slack, network-team@your-company.com | 30 minutes during business hours |
+| Security Team | Security incidents, certificate issues | #security-alerts Slack, security@your-company.com | 15 minutes for P1/P2 |
+| Database Team | Database performance/availability | #database-support Slack, dba-team@your-company.com | 30 minutes during business hours |
+| Development Team | Application bugs requiring code changes | #dev-support Slack, api-dev@your-company.com | Next business day, 2 hours for P1 |
