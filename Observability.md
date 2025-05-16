@@ -1,5 +1,6 @@
 # API Connect Observability
 
+## Overview
 This page documents the monitoring, logging, and observability practices for our IBM API Connect platform running on AWS EKS.
 
 ## Monitoring Strategy
@@ -92,33 +93,6 @@ Splunk provides our log aggregation, analysis, and search capabilities.
 | AWS Load Balancers | Access Logs | S3 + Lambda | Splunk `aws_elb` index |
 | AWS CloudTrail | API Activity | CloudTrail | Splunk `aws_cloudtrail` index |
 
-### Log Configuration
-
-For standardized logging across our platform, we use the following configuration:
-
-#### API Connect Components Log Format
-
-```yaml
-# ConfigMap section for API Connect logging
-logging:
-  level: info  # Options: debug, info, warn, error
-  format: json
-  timestamp_format: iso8601
-  include_correlation_id: true
-  redact_sensitive_data: true
-```
-
-#### Fluentd Configuration
-
-The Fluentd configuration is maintained in:
-- [GitHub: API Connect Fluentd Config](https://github.com/your-org/api-connect-infra/tree/main/logging/fluentd)
-
-Key customizations include:
-- Kubernetes metadata enrichment
-- JSON parsing for structured logs
-- Field extraction for API operation data
-- PII data masking
-
 ### Log Retention Policy
 
 | Environment | Hot Storage | Warm Storage | Cold Storage |
@@ -141,16 +115,6 @@ Key customizations include:
 | Pod Restarts | Count of pod restarts | Kubernetes API | >3 in 15min | SRE Team |
 | Database Connections | Number of active DB connections | RDS Metrics | >80% pool size | DBA Team |
 
-### Business KPIs
-
-| KPI | Description | Source | Target | Owner |
-|-----|-------------|--------|--------|-------|
-| API Traffic | Total API calls per minute | Dynatrace | Based on forecast | Product Team |
-| Developer Portal Registrations | New developer signups | Custom Metrics | Based on targets | Product Team |
-| API Onboarding Time | Time to publish new APIs | Custom Metrics | <2 days | API Team |
-| API Latency | 95th percentile response time | Dynatrace | <200ms | SRE Team |
-| Subscription Growth | New API subscriptions | Custom Metrics | Based on targets | Product Team |
-
 ## Alerting Configuration
 
 ### Alert Severity Levels
@@ -171,7 +135,7 @@ Key customizations include:
 | Error Spikes | Unusual error patterns | [Configuration Link](https://your-tenant.dynatrace.com/settings/alertingprofiles/error-spikes) | Email, Slack |
 | Security Issues | Certificate, authentication problems | [Configuration Link](https://your-tenant.dynatrace.com/settings/alertingprofiles/security) | Email, PagerDuty |
 
-### ServiceNow Integration
+### ServiceNow
 
 Alerts from Dynatrace and Splunk automatically create tickets in ServiceNow using these integrations:
 - [Dynatrace ServiceNow Integration](https://your-tenant.dynatrace.com/settings/integration/servicenow)
@@ -181,89 +145,7 @@ Configuration details:
 - Ticket Assignment Rules: [Link to Configuration](https://service-now.your-company.com/rules)
 - Ticket Templates: [Link to Templates](https://service-now.your-company.com/templates)
 - SLA Definitions: [Link to SLAs](https://service-now.your-company.com/slas)
-
-## Health Checks
-
-### API Gateway Health Checks
-
-Internal health check endpoint: `https://api.your-domain.com/health`
-External health check endpoint: `https://api.your-domain.com/public-health`
-
-Health check configuration:
-```yaml
-healthcheck:
-  enabled: true
-  path: /health
-  port: 9443
-  livenessProbe:
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 3
-  readinessProbe:
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 3
-```
-
-### Load Balancer Health Checks
-
-AWS Application Load Balancer health checks:
-- Path: `/health`
-- Protocol: HTTPS
-- Port: 9443
-- Interval: 30 seconds
-- Timeout: 5 seconds
-- Healthy threshold: 2
-- Unhealthy threshold: 3
-
-### Synthetic API Tests
-
-Critical API health verification:
-- [Authentication Flow Test](https://your-tenant.dynatrace.com/synthetics/auth-flow)
-- [Create API Test](https://your-tenant.dynatrace.com/synthetics/create-api)
-- [Subscribe API Test](https://your-tenant.dynatrace.com/synthetics/subscribe-api)
-- [Gateway Performance Test](https://your-tenant.dynatrace.com/synthetics/gateway-perf)
-
-## Visualization & Reporting
-
-### Executive Dashboards
-
-Business-focused dashboards showing API platform performance:
-- [API Platform KPIs](https://your-tenant.dynatrace.com/dashboards/executive-kpis)
-- [Monthly Business Review](https://your-tenant.dynatrace.com/dashboards/monthly-review)
-
-### Operational Dashboards
-
-SRE dashboards for real-time monitoring:
-- [NOC Overview](https://your-tenant.dynatrace.com/dashboards/noc-overview)
-- [Incident Response](https://your-tenant.dynatrace.com/dashboards/incident-response)
-
-### Reporting
-
-Automated reports generated and distributed:
-- Weekly Performance Report: [Configuration](https://your-tenant.dynatrace.com/settings/reports/weekly-perf)
-- Monthly Capacity Planning: [Configuration](https://your-tenant.dynatrace.com/settings/reports/capacity)
-- Quarterly Service Review: [Template](https://sharepoint.your-company.com/sites/sre/qsr-template)
-
-## Runbooks & Procedures
-
-### Monitoring System Management
-
-- [Dynatrace Configuration Management](../../Runbook#dynatrace-configuration)
-- [Splunk Maintenance](../../Runbook#splunk-maintenance)
-- [Alert Tuning Process](../../Runbook#alert-tuning)
-- [Dashboard Creation Guidelines](../../SDLC#monitoring-standards)
-
-### Troubleshooting with Monitoring Tools
-
-- [Using Splunk for Log Investigation](../../Runbook#splunk-investigation)
-- [Dynatrace Problem Analysis](../../Runbook#dynatrace-problems)
-- [Performance Analysis Workflow](../../Runbook#performance-analysis)
-- [Root Cause Determination](../../Runbook#root-cause-analysis)
+- Alerting Setup: <link to process to configure alerts for sev 1-4
 
 ## Observability as Code
 
