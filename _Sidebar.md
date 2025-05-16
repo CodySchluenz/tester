@@ -14,7 +14,6 @@
 * [Developer Portal Runbook](Developer-Portal-Runbook)
 * [Analytics Runbook](Analytics-Runbook)
 * [Infrastructure Runbook](Infrastructure-Runbook)
-* [Database Runbook](Database-Runbook)
-* [Security Runbook](Security-Runbook)
 * [Operations Runbook](Operations-Runbook)
 * [Maintenance Runbook](Maintenance-Runbook)
+* 🧩 [Runbook Template](Runbook-Template)

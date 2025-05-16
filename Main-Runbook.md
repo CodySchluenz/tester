@@ -1,153 +1,33 @@
-# API Connect Runbook
+# IBM API Connect Service Overview
 
-This runbook serves as the primary operational guide for the IBM API Connect platform deployed on AWS EKS. It provides high-level guidance and links to detailed procedures for operating and maintaining the platform.
+## Service Description
 
-## General
+IBM API Connect is an enterprise-grade API management platform deployed on AWS EKS that enables the full API lifecycle including creation, security, management, testing, and monitoring of APIs. The platform serves as the central hub for all API activities within the organization.
 
-The IBM API Connect platform is a business-critical system that enables the creation, execution, management, and security of APIs across our organization. This runbook prioritizes responses based on business and customer impact, with clearly defined ownership and escalation paths.
+### Business Purpose
 
-### Platform Purpose
+API Connect provides:
+- Creation and documentation of REST and SOAP APIs
+- Secure runtime execution of API calls
+- Policy enforcement and access control
+- API analytics and performance monitoring
+- Self-service developer portal for API consumers
+- API lifecycle management
 
-API Connect serves as our organization's API management solution, providing:
-- Creation and documentation of APIs
-- Runtime execution of API calls
-- Security and access control
-- Analytics and monitoring
-- Developer self-service portal
+### Business Impact
 
-### Runbook Navigation
+This platform is **business-critical** as it:
+- Enables integration between internal systems
+- Provides controlled access to enterprise data
+- Supports partner integrations
+- Enables digital product capabilities
+- Facilitates mobile application functionality
 
-This main runbook provides high-level guidance with links to detailed procedures:
-- Use the [Decision Trees](#decision-trees) to identify the appropriate response procedure
-- Refer to [Incident Management](#incident-management) for issue resolution
-- See [Contact Details](#contact-details) for escalation paths
+## Architecture Overview
 
-### Related Documentation
-
-- [Architecture](../Architecture) - Detailed platform design and components
-- [Observability](../Observability) - Monitoring, logging, and alerting
-- [Access](../Access) - Access control and security procedures
-- [SDLC](../SDLC) - Development and deployment processes
-- [Home](../Home) - Wiki landing page
-
-## Decision Trees
-
-Use these decision trees to identify which runbook section or detailed procedure to follow:
-
-### Component Issue Identification
-
-```mermaid
-graph TD
-    Start[Issue Detected] --> Q1{What component is affected?}
-    Q1 -->|Gateway| GW[Gateway Issues<br/>#gateway-issues]
-    Q1 -->|Management| MGMT[Management Issues<br/>#management-issues]
-    Q1 -->|Portal| PRT[Portal Issues<br/>#portal-issues]
-    Q1 -->|Analytics| ANL[Analytics Issues<br/>#analytics-issues]
-    Q1 -->|Infrastructure| INF[Infrastructure Issues<br/>#infrastructure-issues]
-    Q1 -->|Database| DB[Database Issues<br/>#database-issues]
-    Q1 -->|Security| SEC[Security Issues<br/>#security-issues]
-    Q1 -->|Multiple/Unknown| MULTI[System-Wide Issues<br/>#system-wide-issues]
-```
-### Severity Assessment
-```mermaid
-graph TD
-    Start[Assess Severity] --> Q1{User Impact?}
-    Q1 -->|No API access| P1[P1 - Critical<br/>Response: Immediate]
-    Q1 -->|Degraded performance| Q2{How degraded?}
-    Q1 -->|Specific feature| Q3{Business impact?}
-    Q1 -->|Minor/cosmetic| P4[P4 - Low<br/>Response: Scheduled]
-    
-    Q2 -->|\>50% slower| P2[P2 - High<br/>Response: <30 min]
-    Q2 -->|<50% slower| P3[P3 - Medium<br/>Response: <2 hours]
-    
-    Q3 -->|Revenue impact| P2
-    Q3 -->|Internal only| P3
-```
-
-## Incident Management
-
-The incident management section describes known error conditions and instructions for resolving incidents. For detailed resolution procedures, follow the links to component-specific runbooks.
-
-### Severity Levels
-
-| Level | Definition | Response Time | Resolution Target | Notification |
-|-------|------------|---------------|-------------------|--------------|
-| P1 (Critical) | Complete service outage or severe degradation affecting all users | Immediate (<15 min) | <4 hours | Full team + management |
-| P2 (High) | Partial service outage or significant performance degradation | <30 min | <8 hours | On-call team + backup |
-| P3 (Medium) | Minor functionality issues with limited impact | <2 hours | <24 hours | Primary on-call |
-| P4 (Low) | Cosmetic issues or minor bugs with minimal impact | Next business day | Based on priority | Ticket only |
-
-### Known Error Conditions
-
-| Error Condition | Symptoms | Impact | Owner | Detailed Runbook |
-|-----------------|----------|--------|-------|------------------|
-| Gateway Service Failure | 5XX errors, Gateway pods in CrashLoopBackOff | Direct customer impact | L2 Support | [Gateway Issues](../Runbook-Gateway) |
-| Management Service Disruption | Unable to publish APIs, UI errors | Internal users cannot manage APIs | L2 Support | [Management Issues](../Runbook-Management) |
-| Developer Portal Unavailability | Portal inaccessible | API consumers cannot access documentation | L2 Support | [Portal Issues](../Runbook-Portal) |
-| Analytics Service Failure | Missing metrics, dashboard not updating | Loss of visibility | L2 Support | [Analytics Issues](../Runbook-Analytics) |
-| Certificate Expiration | TLS handshake failures | API calls failing with SSL errors | Security Team | [Security Issues](../Runbook-Security#certificates) |
-| AWS Infrastructure Issues | Multiple pod failures, node issues | Widespread disruption | SRE Team | [Infrastructure Issues](../Runbook-Infrastructure) |
-
-### General Incident Response Process
-
-1. **Acknowledge the Incident**
-   - Confirm alert receipt in PagerDuty
-   - Join incident channel in MS Teams
-   - Update ticket status in ServiceNow
-   - For P1/P2: Start conference bridge
-
-2. **Assess Impact and Severity**
-   - Verify user impact using synthetic monitors in [Dynatrace](https://your-tenant.dynatrace.com/dashboards/api-connect-overview)
-   - Check [API Connect Real-Time Dashboard](https://your-tenant.dynatrace.com/dashboards/api-connect-real-time) for current traffic impact
-   - Determine severity level using the [Severity Assessment](#severity-assessment) decision tree
-   - Document initial findings in the incident ticket
-
-3. **Investigate and Diagnose**
-   - Use the [Component Issue Identification](#component-issue-identification) decision tree
-   - Follow the relevant component runbook
-   - Reference common queries from [Splunk Query Library](../Runbook-Operations#splunk-query-library)
-   - Apply the component-specific diagnostic workflow
-   - Document all diagnostic steps taken
-
-4. **Implement Resolution**
-   - Apply the resolution steps from the relevant runbook
-   - Follow standard change process for P3/P4 issues
-   - Use emergency change process for P1/P2 issues
-   - Update stakeholders on progress
-   - Document all actions taken
-   - Use component-specific verification tests to confirm resolution
-
-5. **Verify Resolution**
-   - Confirm issue resolution through:
-     - [Dynatrace Synthetic Monitors](https://your-tenant.dynatrace.com/synthetics)
-     - [API Connect Health Checks](https://your-tenant.dynatrace.com/synthetics/api-health)
-     - Component-specific verification steps
-   - Verify with affected users if applicable
-   - Monitor for recurrence for at least 30 minutes
-   - Update and resolve the incident in ServiceNow
-
-6. **Post-Incident Activities**
-   - Schedule post-incident review for P1/P2 incidents within 48 hours
-   - Document timeline in standard template
-   - Update runbooks with new learnings
-   - Create preventative action items in backlog
-   - Update monitoring based on lessons learned
-
-### Environment-Specific Considerations
-
-| Environment | Special Considerations | Runbook Adjustments |
-|-------------|------------------------|---------------------|
-| Development | Non-production workloads, reduced redundancy | More permissive actions, focus on quick resolution |
-| Testing | Test automation, periodic resets | Coordinate with QA team, check test schedules |
-| Staging | Pre-production validation | Validate against production configuration |
-| Production | Business-critical, strict change control | Follow formal change process, consider business impact |
-| DR | Warm standby, replication from production | Verify replication status, check sync jobs |
-
-## System Overview
+API Connect consists of four primary components deployed on AWS EKS. For detailed architecture information, see the [Architecture](../Architecture) wiki page.
 
 ### High-Level Architecture
-
-API Connect consists of these key components deployed on AWS EKS:
 
 ```mermaid
 graph TD
@@ -164,307 +44,218 @@ graph TD
     D --> P
 ```
 
-For detailed architecture information, see the [Architecture](../Architecture) page.
+### Component Descriptions
 
-### Component Roles
+| Component | Description | Criticality | Detailed Documentation |
+|-----------|-------------|-------------|------------------------|
+| **API Gateway (DataPower)** | Runtime component that processes API requests, enforces security policies, validates requests, and routes to backend services. | Critical - Directly impacts API consumers | [Gateway Runbook](../Gateway-Runbook) |
+| **Management Subsystem** | Provides API lifecycle management, including creation, configuration, testing, and publishing. Includes API Manager UI and backend services. | High - Required for API administration | [Management Runbook](../Management-Runbook) |
+| **Developer Portal** | Self-service portal for API consumers to discover, explore, test, and subscribe to APIs. | Medium - Affects API discovery and onboarding | [Portal Runbook](../Developer-Portal-Runbook) |
+| **Analytics Subsystem** | Collects, processes, and visualizes API usage metrics and operational data. | Medium - Affects visibility into platform usage | [Analytics Runbook](../Analytics-Runbook) |
 
-| Component | Purpose | Criticality | Availability Target |
-|-----------|---------|-------------|---------------------|
-| API Gateway | Processes API requests, enforces policies | Critical | 99.99% |
-| Management | API creation, configuration, lifecycle | High | 99.9% |
-| Developer Portal | Self-service API discovery and subscription | Medium | 99.9% |
-| Analytics | Metrics collection and reporting | Medium | 99.5% |
+### AWS Infrastructure
 
-### Hours of Operation
+The platform is hosted on AWS with the following key services. For detailed infrastructure information, see the [Architecture#physical-architecture](../Architecture#physical-architecture) wiki page.
 
-The API Connect platform operates 24/7/365 with the following maintenance windows:
-
-| Component | Availability Target | Maintenance Window |
-|-----------|---------------------|-------------------|
-| Gateway Services | 99.99% | None (Rolling updates only) |
-| Management Services | 99.9% | Sunday 2:00 AM - 4:00 AM EST |
-| Developer Portal | 99.9% | Sunday 2:00 AM - 4:00 AM EST |
-| Analytics Services | 99.5% | Sunday 2:00 AM - 4:00 AM EST |
-
-### Service Level Objectives (SLOs)
-
-| Service | SLO | Target | Measurement Window | Dashboard |
-|---------|-----|--------|---------------------|----------|
-| API Gateway | Availability | 99.95% | 30-day rolling | [SLO Dashboard](https://your-tenant.dynatrace.com/slo/gateway-availability) |
-| API Gateway | Latency (p95) | <300ms | 30-day rolling | [SLO Dashboard](https://your-tenant.dynatrace.com/slo/gateway-latency) |
-| Overall Platform | Error Rate | <0.1% | 30-day rolling | [SLO Dashboard](https://your-tenant.dynatrace.com/slo/platform-errors) |
-
-For detailed SLO definitions and monitoring, see the [Observability](../Observability#slis-slos) page.
-
-## Security and Access Control
-
-This section provides a high-level overview of security and access control for the API Connect platform. For detailed security procedures, see the [Access](../Access) page and [Security Issues](../Runbook-Security) runbook.
-
-### Authentication Methods
-
-| Method | Used For | Configuration |
-|--------|----------|--------------|
-| SAML | UI access | Integration with corporate SSO |
-| OAuth 2.0 | API access | Token-based authentication |
-| API Keys | Developer applications | Subscription-based |
-| Client certificates | Secure backend connections | Mutual TLS |
-
-### Access Levels
-
-| Role | Capabilities | Management |
-|------|--------------|------------|
-| Admin | Full platform control | Restricted to SRE team |
-| API Developer | Create and test APIs | Restricted to development teams |
-| API Manager | Approve and publish APIs | Restricted to product owners |
-| API Consumer | Subscribe and use APIs | Self-service via Developer Portal |
-
-### Security Incident Response
-
-For security incidents, follow these steps:
-
-1. Identify the security issue type using the [Security Issues](../Runbook-Security) runbook
-2. Follow the specific procedure for the issue type
-3. Engage the Security Team for all P1/P2 security incidents
-4. Document all actions in a security incident report
-
-## Cloud Configurations
-
-This section provides a high-level overview of the AWS cloud configuration for API Connect. For detailed cloud configuration information, see the [Architecture](../Architecture#physical-architecture) page.
-
-### AWS Services Used
-
-| Service | Purpose | Critical Configurations |
-|---------|---------|-------------------------|
-| EKS | Kubernetes orchestration | Version 1.29, 3 AZs |
-| RDS | Database services | PostgreSQL, Multi-AZ |
+| AWS Service | Usage | Configuration |
+|-------------|-------|---------------|
+| EKS | Kubernetes orchestration | Version 1.29, deployed across 3 AZs |
+| EC2 | Worker nodes for EKS | Auto-scaling node groups with right-sized instances |
+| RDS | PostgreSQL database | Multi-AZ deployment with automated backups |
 | ALB | Load balancing | TLS termination, WAF integration |
-| Route53 | DNS management | Health checks, failover |
-| S3 | Object storage | Backup storage, artifacts |
-| KMS | Encryption | Secrets, disk encryption |
+| Route53 | DNS management | Health checks, failover configuration |
+| S3 | Object storage | Backup storage, artifacts, logging |
+| KMS | Encryption | Secrets and data encryption |
 
-### AWS Regions
+### Network Architecture
 
-| Environment | Primary Region | DR Region |
-|-------------|---------------|-----------|
-| Production | us-east-1 | us-west-2 |
-| Non-Production | us-east-2 | N/A |
+The platform utilizes a secure network design. For detailed network architecture, see the [Architecture#network-architecture](../Architecture#network-architecture) wiki page.
+- VPC with public and private subnets across 3 AZs
+- API traffic flows through public ALB to private Gateway services
+- Internal components operate in private subnets
+- NAT Gateways for outbound connectivity
+- VPC endpoints for AWS service access
+- Network ACLs and security groups for traffic control
 
-## Application and Operating System Configurations
+## Environments
 
-This section provides high-level information about application and OS configurations. For detailed configuration information, see the [Architecture](../Architecture#application-and-operating-system-configurations) page.
+| Environment | Purpose | URL | AWS Region | Access |
+|-------------|---------|-----|-----------|--------|
+| **Production** | Business operations | api.example.com | us-east-1 | Restricted |
+| **DR** | Disaster recovery | dr.api.example.com | us-west-2 | Emergency only |
+| **Staging** | Pre-production validation | staging-api.example.com | us-east-1 | Limited |
+| **Testing** | QA and automated testing | test-api.example.com | us-east-2 | Team access |
+| **Development** | Development work | dev-api.example.com | us-east-2 | Developer access |
 
-### Key Configuration Files
+For environment-specific details, see the [Architecture#environment-comparison](../Architecture#environment-comparison) wiki page.
 
-| Component | Configuration Location | Purpose | Change Process |
-|-----------|------------------------|---------|----------------|
-| Gateway | ConfigMap: gateway-config | API runtime settings | GitOps pipeline |
-| Manager | ConfigMap: manager-config | Management UI settings | GitOps pipeline |
-| Portal | ConfigMap: portal-config | Developer portal settings | GitOps pipeline |
-| Analytics | ConfigMap: analytics-config | Metrics collection settings | GitOps pipeline |
+## Service Level Objectives
 
-### Configuration Parameter Reference
+| Service | Metric | Target | Measurement |
+|---------|--------|--------|-------------|
+| API Gateway | Availability | 99.95% | 30-day rolling window |
+| API Gateway | Response Time (p95) | < 300ms | 30-day rolling window |
+| All Services | Error Rate | < 0.1% | 30-day rolling window |
+| Management Services | Availability | 99.9% | 30-day rolling window |
+| Developer Portal | Availability | 99.9% | 30-day rolling window |
 
-For each key component, critical configuration parameters to be aware of during incident response:
+For detailed SLO definitions and monitoring, see the [Observability#slis-slos](../Observability#slis-slos) wiki page.
 
-#### Gateway Configuration Critical Parameters
+## Maintenance Windows
 
-| Parameter | Purpose | Default Value | Impact if Misconfigured |
-|-----------|---------|--------------|--------------------------|
-| `maxConnections` | Maximum concurrent connections | 10000 | Connection rejection, API failures |
-| `timeoutSeconds` | Request timeout | 60 | Premature request termination |
-| `rateLimit.enabled` | Rate limiting toggle | true | Unprotected backend services |
-| `logging.level` | Log verbosity | info | Excessive or insufficient logging |
-| `tlsVersion` | Minimum TLS version | TLSv1.2 | Security vulnerabilities or client rejections |
+| Component | Window | Frequency | Impact |
+|-----------|--------|-----------|--------|
+| Gateway Services | None (Rolling updates) | As needed | No downtime |
+| Management Services | Sunday 2:00 AM - 4:00 AM EST | Monthly | UI unavailable |
+| Developer Portal | Sunday 2:00 AM - 4:00 AM EST | Monthly | Portal unavailable |
+| Analytics Services | Sunday 2:00 AM - 4:00 AM EST | Monthly | Analytics unavailable |
 
-#### Management Configuration Critical Parameters
-
-| Parameter | Purpose | Default Value | Impact if Misconfigured |
-|-----------|---------|--------------|--------------------------|
-| `database.maxConnections` | DB connection pool size | 50 | Connection failures or resource exhaustion |
-| `sessionTimeout` | UI session timeout | 30m | Security risks or frequent logouts |
-| `deploymentTimeout` | API deployment timeout | 120s | Failed deployments |
-| `backupEnabled` | Configuration backup | true | Unrecoverable configuration changes |
-
-### Configuration Management
-
-All configuration changes must follow the change management process:
-
-1. Create configuration change in the [api-connect-config](https://github.com/your-org/api-connect-config) repository
-2. Submit pull request for review
-3. Run automated validation tests
-4. Obtain approval based on change type
-5. Deploy through CI/CD pipeline
-6. Verify change was applied correctly
-
-For detailed deployment procedures, see the [SDLC](../SDLC#deployment-process) page.
+For detailed maintenance procedures, see the [Maintenance-Runbook](../Maintenance-Runbook) wiki page.
 
 ## Monitoring and Alerting
 
-This section provides a high-level overview of monitoring and alerting for API Connect. For detailed monitoring information, see the [Observability](../Observability) page.
+For comprehensive monitoring information, see the [Observability](../Observability) wiki page.
 
 ### Monitoring Tools
 
-| Tool | Purpose | Primary URL | Alert Integration |
-|------|---------|------------|------------------|
-| Dynatrace | APM and monitoring | [Dynatrace Portal](https://your-tenant.dynatrace.com/) | ServiceNow, PagerDuty |
-| Splunk | Log aggregation and analysis | [Splunk Portal](https://splunk.your-company.com/) | ServiceNow, PagerDuty |
-| ServiceNow | Incident management | [ServiceNow Portal](https://your-instance.service-now.com/) | Email notifications |
-| AWS CloudWatch | AWS resource monitoring | [AWS Console](https://console.aws.amazon.com/cloudwatch/) | PagerDuty |
+| Tool | Purpose | Access |
+|------|---------|--------|
+| Dynatrace | APM, synthetic monitoring, alerting | [Dynatrace Portal](https://your-tenant.dynatrace.com/) |
+| Splunk | Log aggregation and analysis | [Splunk Portal](https://splunk.your-company.com/) |
+| AWS CloudWatch | AWS resource monitoring | AWS Console |
+| ServiceNow | Incident management | [ServiceNow Portal](https://your-instance.service-now.com/) |
 
 ### Key Dashboards
 
-| Dashboard | Purpose | URL | Primary Audience | Key Metrics |
-|-----------|---------|-----|-----------------|------------|
-| API Connect Overview | Platform health | [Dashboard](https://your-tenant.dynatrace.com/dashboards/api-connect-overview) | All Teams | Availability, error rates, response times |
-| Gateway Performance | Gateway metrics | [Dashboard](https://your-tenant.dynatrace.com/dashboards/gateway-performance) | SRE Team | Throughput, latency, error rates by API |
-| Business Impact | User experience | [Dashboard](https://your-tenant.dynatrace.com/dashboards/business-impact) | Product Team | Business transaction failures, customer impact |
-| Operational Health | Infrastructure status | [Dashboard](https://your-tenant.dynatrace.com/dashboards/operational-health) | SRE Team | Node status, pod health, resource utilization |
-| SLO Tracking | SLO compliance | [Dashboard](https://your-tenant.dynatrace.com/dashboards/slo-tracking) | SRE Team, Management | SLO metrics, error budgets, trend analysis |
+| Dashboard | Purpose | URL |
+|-----------|---------|-----|
+| API Connect Overview | Platform-wide health | [Dynatrace Dashboard](https://your-tenant.dynatrace.com/api-connect-overview) |
+| Gateway Performance | API Gateway metrics | [Dynatrace Dashboard](https://your-tenant.dynatrace.com/gateway-performance) |
+| SLO Tracking | SLO compliance | [Dynatrace Dashboard](https://your-tenant.dynatrace.com/slo-tracking) |
+| Security Events | Security monitoring | [Splunk Dashboard](https://splunk.your-company.com/security-events) |
 
-### Alert Configuration
+For dashboard details, see the [Observability#dashboards](../Observability#dashboards) wiki page.
 
-Our alert configuration in Dynatrace and Splunk aligns with our [Severity Levels](#severity-levels) to ensure consistent incident response. Alerts are routed to appropriate channels based on severity:
+### Critical Metrics
 
-| Alert Source | Integration | Notification Routing |
-|--------------|-------------|---------------------|
-| Dynatrace | ServiceNow, PagerDuty | Based on severity level |
-| Splunk | ServiceNow, PagerDuty | Based on severity level and component |
-| Custom Checks | ServiceNow | Based on check type |
+| Metric | Description | Warning Threshold | Critical Threshold |
+|--------|-------------|-------------------|---------------------|
+| API Success Rate | % of API calls with 2xx/3xx status | < 99.5% | < 99% |
+| Response Time (p95) | 95th percentile of response times | > 300ms | > 500ms |
+| Error Rate | % of 5XX responses | > 0.1% | > 1% |
+| CPU Utilization | Resource usage | > 70% | > 85% |
+| Active DB Connections | Database connections | > 70% of max | > 85% of max |
 
-For detailed alert configurations and response procedures, see the [Observability](../Observability#alerting-configuration) page.
+For the complete metrics catalog, see the [Observability#key-metrics](../Observability#key-metrics) wiki page.
 
-## Operational Tasks
+## Authentication and Access Control
 
-This section covers routine operational tasks for the API Connect platform. For detailed operational procedures, see the corresponding component runbooks.
+For detailed security information, see the [Access](../Access) wiki page.
 
-### Daily Operations
+### Authentication Methods
 
-| Task | Frequency | Owner | Procedure |
-|------|-----------|-------|-----------|
-| Platform health check | Daily | L1 Support | [Daily Health Check](../Runbook-Operations#daily-health-check) |
-| Backup verification | Daily | SRE Team | [Backup Verification](../Runbook-Operations#backup-verification) |
-| Error log review | Daily | L2 Support | [Log Review](../Runbook-Operations#log-review) |
-| Resource utilization | Daily | SRE Team | [Resource Monitoring](../Runbook-Operations#resource-monitoring) |
+| Interface | Method | Provider | Notes |
+|-----------|--------|----------|-------|
+| Management UI | SAML | Corporate SSO (Okta) | MFA required |
+| Developer Portal | OAuth 2.0 / OpenID Connect | Okta | Self-service registration with approval |
+| API Gateway | Multiple (API Key, OAuth 2.0, JWT, mTLS) | API Connect | Configurable per API |
+| Kubernetes | OIDC | Corporate SSO (Okta) | Role-based access |
 
-### Weekly Operations
+See [Access#authentication-methods](../Access#authentication-methods) for detailed authentication configurations.
 
-| Task | Frequency | Owner | Procedure |
-|------|-----------|-------|-----------|
-| Certificate expiration check | Weekly | Security Team | [Certificate Management](../Runbook-Security#certificate-management) |
-| Performance review | Weekly | SRE Team | [Performance Review](../Runbook-Operations#weekly-performance-review) |
-| Capacity planning | Weekly | SRE Team | [Capacity Planning](../Runbook-Operations#capacity-planning) |
-| Backup testing | Weekly | SRE Team | [Backup Testing](../Runbook-Operations#backup-testing) |
+### Access Control Models
 
-### Monthly Operations
+API Connect implements a comprehensive RBAC model. For detailed access control information, see the [Access#authorization-models](../Access#authorization-models) wiki page.
 
-| Task | Frequency | Owner | Procedure |
-|------|-----------|-------|-----------|
-| Security scan review | Monthly | Security Team | [Security Review](../Runbook-Security#security-review) |
-| DR testing | Monthly | SRE Team | [DR Testing](../Runbook-Operations#dr-testing) |
-| SLA/SLO review | Monthly | SRE Team | [SLO Review](../Runbook-Operations#slo-review) |
+| Role | Description | Access Scope |
+|------|-------------|--------------|
+| Administrator | Full platform control | Restricted to SRE team |
+| Operator | Runtime management | SRE team |
+| API Developer | API creation and testing | Development teams |
+| API Administrator | API lifecycle management | API product owners |
+| Consumer Organization Owner | Consumer organization management | External partners |
+| API Consumer | API usage | External developers |
 
-## Maintenance Tasks
+## Backup and Disaster Recovery
 
-This section covers planned maintenance tasks that might affect platform stability. For detailed procedures, see the [Runbook-Maintenance](../Runbook-Maintenance) page.
+### Backup Strategy
 
-### Scheduled Maintenance
+| Component | Backup Method | Frequency | Retention |
+|-----------|---------------|-----------|-----------|
+| RDS Database | Automated snapshots | Daily | 30 days |
+| Configuration | S3 backups | Hourly | 90 days |
+| API Definitions | Git repository | Continuous | Indefinite |
+| Platform State | EKS resource exports | Daily | 30 days |
 
-| Maintenance Type | Frequency | Duration | Impact | Procedure |
-|------------------|-----------|----------|--------|-----------|
-| Database maintenance | Weekly (Sunday 2-3 AM) | 1 hour | Minimal | [DB Maintenance](../Runbook-Maintenance#database-maintenance) |
-| Gateway updates | Monthly | 2 hours | Rolling (none) | [Gateway Updates](../Runbook-Maintenance#gateway-updates) |
-| EKS upgrades | Quarterly | 4 hours | Minimal | [EKS Upgrades](../Runbook-Maintenance#eks-upgrades) |
-| Full platform upgrade | Bi-annually | 8 hours | Potential brief outages | [Platform Upgrade](../Runbook-Maintenance#platform-upgrade) |
+For detailed backup procedures, see the [Infrastructure-Runbook#backup-and-disaster-recovery](../Infrastructure-Runbook#backup-and-disaster-recovery) wiki page.
 
-### Patching Strategy
+### Disaster Recovery
 
-| Component | Patching Frequency | Approval Required | Procedure |
-|-----------|---------------------|-------------------|-----------|
-| Security patches | Within 7 days of release | Yes (expedited) | [Security Patching](../Runbook-Maintenance#security-patching) |
-| OS patches | Monthly | Yes (standard) | [OS Patching](../Runbook-Maintenance#os-patching) |
-| Kubernetes | Quarterly | Yes (CAB) | [Kubernetes Patching](../Runbook-Maintenance#kubernetes-patching) |
-| API Connect | Quarterly | Yes (CAB) | [API Connect Patching](../Runbook-Maintenance#api-connect-patching) |
+| Scenario | Strategy | RTO | RPO |
+|----------|----------|-----|-----|
+| AZ Failure | Multi-AZ redundancy | Automatic | 0 minutes |
+| Region Failure | Cross-region DR environment | 30 minutes | 5 minutes |
+| Database Corruption | Point-in-time recovery | 2 hours | 5 minutes |
+| Configuration Error | Configuration rollback | 30 minutes | Depends on detection |
 
-### Change Management
+For complete disaster recovery procedures, see the [Infrastructure-Runbook#disaster-recovery-procedures](../Infrastructure-Runbook#disaster-recovery-procedures) wiki page.
 
-All changes follow our change management process:
-
-1. Create change request in ServiceNow
-2. Categorize change (Standard, Normal, Emergency)
-3. Obtain appropriate approvals
-4. Schedule change window
-5. Execute pre-change validation checks
-6. Implement change
-7. Execute post-change validation checks
-8. Update documentation
-9. Close change record with results
-
-For detailed change management procedures, see the [SDLC](../SDLC#change-management) page.
-
-## Contact Details
-
-### On-Call Rotation
-
-| Role | Schedule | Responsibilities | Escalation Time |
-|------|----------|------------------|-----------------|
-| Primary On-Call | Weekly rotation | First response to all alerts | N/A |
-| Secondary On-Call | Weekly rotation | Backup for primary | 15 minutes |
-| Team Lead | As needed | Escalation point | 30 minutes |
-| Manager | As needed | Critical incident management | 1 hour |
-
-Access the on-call schedule: [PagerDuty Schedule](https://your-org.pagerduty.com/schedules)
+## Support and Escalation
 
 ### Support Tiers
 
-| Tier | Team | Hours | Contact Method | Response Time |
-|------|------|-------|---------------|---------------|
-| L1 | NOC/Operations | 24x7 | noc@your-company.com | 15 minutes |
-| L2 | SRE Team | Business hours + on-call | sre-team@your-company.com | 30 minutes |
-| L3 | Development | Business hours + emergency | dev-oncall@your-company.com | 1 hour |
+| Tier | Team | Response Time | Contact Method |
+|------|------|---------------|---------------|
+| L1 | 24x7 Operations | 15 minutes | ServiceNow, PagerDuty |
+| L2 | SRE Team | 30 minutes | ServiceNow, MS Teams |
+| L3 | Platform Engineering | 1 hour | ServiceNow, MS Teams |
+| Vendor | IBM Support | Based on severity | IBM Support Portal |
 
-### External Support
+### Escalation Path
 
-| Vendor | Purpose | Contact Method | Contract ID | Response SLA |
-|--------|---------|---------------|-------------|--------------|
-| IBM | API Connect product support | [IBM Support](https://www.ibm.com/mysupport) | IBM-12345 | P1: 1 hour, P2: 4 hours |
-| AWS | Cloud infrastructure support | [AWS Support](https://console.aws.amazon.com/support/) | AWS-67890 | Business Critical: 15 min |
-| Dynatrace | Monitoring platform support | [Dynatrace Support](https://support.dynatrace.com/) | DT-24680 | P1: 1 hour, P2: 4 hours |
-| Splunk | Log analysis platform support | [Splunk Support](https://www.splunk.com/en_us/support-and-services.html) | SP-13579 | P1: 1 hour, P2: 4 hours |
+For critical incidents (P1/P2):
 
-### Escalation Matrix
-
-#### P1 Incidents
 1. Primary On-Call Engineer (immediate)
 2. Secondary On-Call Engineer (+15 minutes)
 3. SRE Team Lead (+30 minutes)
 4. Engineering Manager (+1 hour)
 5. Director of Engineering (+2 hours)
-6. CTO (+4 hours)
 
-#### P2 Incidents
-1. Primary On-Call Engineer (immediate)
-2. Secondary On-Call Engineer (+30 minutes)
-3. SRE Team Lead (+2 hours)
-4. Engineering Manager (+4 hours)
+For detailed incident response procedures, see the [Operations-Runbook#incident-management](../Operations-Runbook#incident-management) wiki page.
 
-#### P3 Incidents
-1. Primary On-Call Engineer (immediate)
-2. SRE Team Lead (next business day if unresolved)
+### Contact Information
 
-### Business Stakeholders
+| Role | Contact | Availability |
+|------|---------|--------------|
+| SRE Team | api-connect-sre@your-company.com | 24/7 via Teams |
+| Platform Engineering | platform-engineering@your-company.com | Business hours + on-call |
+| IBM Support | IBM Support Portal (Case #IBM-12345) | 24/7 with support contract |
+| AWS Support | AWS Support Portal (Account #AWS-67890) | 24/7 with Business Support |
 
-| Role | When to Notify | Contact | Notification Template |
-|------|---------------|---------|------------------------|
-| Product Owner | P1/P2 incidents | product-owner@your-company.com | [Product Notification Template](../Runbook-Operations#product-notification) |
-| Business Unit Manager | P1 incidents > 1 hour | bu-manager@your-company.com | [BU Notification Template](../Runbook-Operations#bu-notification) |
-| Executive Team | P1 incidents > 2 hours | exec-escalation@your-company.com | [Executive Notification Template](../Runbook-Operations#executive-notification) |
-| Customer Success | Customer-impacting incidents | customer-success@your-company.com | [CS Notification Template](../Runbook-Operations#cs-notification) |
+For complete contact details, see the [Operations-Runbook#contact-details](../Operations-Runbook#contact-details) wiki page.
 
-### Cross-Team Collaboration
+## Documentation References
 
-| Team | Collaboration Scenario | Contact Method | Response Expectation |
-|------|------------------------|----------------|----------------------|
-| Network Team | Connectivity/routing issues | #network-support Slack, network-team@your-company.com | 30 minutes during business hours |
-| Security Team | Security incidents, certificate issues | #security-alerts Slack, security@your-company.com | 15 minutes for P1/P2 |
-| Database Team | Database performance/availability | #database-support Slack, dba-team@your-company.com | 30 minutes during business hours |
-| Development Team | Application bugs requiring code changes | #dev-support Slack, api-dev@your-company.com | Next business day, 2 hours for P1 |
+### Technical Documentation
+
+- [Architecture Documentation](../Architecture) - Detailed platform design
+- [Observability Documentation](../Observability) - Monitoring and alerting
+- [Access Documentation](../Access) - Security and access control
+- [SDLC Documentation](../SDLC) - Development and deployment
+
+### Runbooks
+
+- [Gateway Runbook](../Gateway-Runbook) - Gateway troubleshooting
+- [Management Runbook](../Management-Runbook) - Management troubleshooting
+- [Portal Runbook](../Developer-Portal-Runbook) - Developer Portal troubleshooting
+- [Analytics Runbook](../Analytics-Runbook) - Analytics troubleshooting
+- [Infrastructure Runbook](../Infrastructure-Runbook) - AWS and Kubernetes issues
+- [Database Runbook](../Database-Runbook) - Database operations
+- [Maintenance Runbook](../Maintenance-Runbook) - Planned maintenance procedures
+- [Operations Runbook](../Operations-Runbook) - Day-to-day operational procedures
+
+### External Documentation
+
+- [IBM API Connect Documentation](https://www.ibm.com/docs/en/api-connect/)
+- [EKS Documentation](https://docs.aws.amazon.com/eks/)
+- [Kubernetes Documentation](https://kubernetes.io/docs/)
