@@ -1,0 +1,215 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="600" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2c3e50">
+    Post-Mortem Process Flow (PagerDuty Aligned)
+  </text>
+  
+  <!-- Phase 1: Incident Resolution & Owner Designation -->
+  <g id="phase1">
+    <rect x="50" y="60" width="200" height="80" rx="10" fill="#e74c3c" stroke="#c0392b" stroke-width="2"/>
+    <text x="150" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Incident Resolved</text>
+    <text x="150" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">P1/P2 Severity</text>
+    <text x="150" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">IC Designates Owner</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <path d="M 250 100 L 320 100" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="285" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7f8c8d">Immediately</text>
+  
+  <!-- Phase 2: Setup -->
+  <g id="phase2">
+    <rect x="330" y="60" width="200" height="80" rx="10" fill="#f39c12" stroke="#e67e22" stroke-width="2"/>
+    <text x="430" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Initial Setup</text>
+    <text x="430" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Schedule meeting</text>
+    <text x="430" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Create document</text>
+    <text x="430" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Status: Draft</text>
+  </g>
+  
+  <!-- Timeline boxes -->
+  <rect x="570" y="70" width="80" height="25" rx="5" fill="#3498db" stroke="#2980b9"/>
+  <text x="610" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold">P1: 3 days</text>
+  <rect x="570" y="105" width="80" height="25" rx="5" fill="#9b59b6" stroke="#8e44ad"/>
+  <text x="610" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold">P2: 5 days</text>
+  
+  <!-- Arrow 2 -->
+  <path d="M 530 100 L 680 100" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="605" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7f8c8d">Within 24h</text>
+  
+  <!-- Phase 3: Investigation -->
+  <g id="phase3">
+    <rect x="690" y="60" width="200" height="80" rx="10" fill="#27ae60" stroke="#229954" stroke-width="2"/>
+    <text x="790" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Investigation &amp; Writing</text>
+    <text x="790" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Timeline focus first</text>
+    <text x="790" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Link all evidence</text>
+    <text x="790" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Root cause analysis</text>
+  </g>
+  
+  <!-- Arrow 3 (down) -->
+  <path d="M 790 140 L 790 190" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="810" y="165" font-family="Arial, sans-serif" font-size="10" fill="#7f8c8d">1-5 days</text>
+  
+  <!-- Phase 4: Internal Review -->
+  <g id="phase4">
+    <rect x="690" y="200" width="200" height="80" rx="10" fill="#8e44ad" stroke="#7d3c98" stroke-width="2"/>
+    <text x="790" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Internal Review</text>
+    <text x="790" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Post in Slack for feedback</text>
+    <text x="790" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Status: In Review</text>
+    <text x="790" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• 24h before meeting</text>
+  </g>
+  
+  <!-- Arrow 4 (left) -->
+  <path d="M 690 240 L 530 240" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="610" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7f8c8d">Ready for meeting</text>
+  
+  <!-- Phase 5: Meeting -->
+  <g id="phase5">
+    <rect x="330" y="200" width="200" height="80" rx="10" fill="#2980b9" stroke="#1f618d" stroke-width="2"/>
+    <text x="430" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Post-Mortem Meeting</text>
+    <text x="430" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• IC facilitates (15-30 min)</text>
+    <text x="430" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Owner presents</text>
+    <text x="430" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Agree on actions</text>
+  </g>
+  
+  <!-- Arrow 5 (left) -->
+  <path d="M 330 240 L 250 240" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <text x="290" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7f8c8d">Status: Reviewed</text>
+  
+  <!-- Phase 6: Follow-up -->
+  <g id="phase6">
+    <rect x="50" y="200" width="200" height="80" rx="10" fill="#16a085" stroke="#138d75" stroke-width="2"/>
+    <text x="150" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Follow-up Actions</text>
+    <text x="150" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Create JIRA tickets</text>
+    <text x="150" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Send stakeholder email</text>
+    <text x="150" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">• Status: Closed</text>
+  </g>
+  
+  <!-- Arrow 6 (down) -->
+  <path d="M 150 280 L 150 330" stroke="#34495e" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Phase 7: Continuous Improvement -->
+  <g id="phase7">
+    <rect x="50" y="340" width="840" height="60" rx="10" fill="#95a5a6" stroke="#7f8c8d" stroke-width="2"/>
+    <text x="470" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Continuous Improvement</text>
+    <text x="200" y="380" font-family="Arial, sans-serif" font-size="11" fill="white">• Track action item completion</text>
+    <text x="450" y="380" font-family="Arial, sans-serif" font-size="11" fill="white">• Update runbooks &amp; procedures</text>
+    <text x="700" y="380" font-family="Arial, sans-serif" font-size="11" fill="white">• Quarterly trend analysis</text>
+  </g>
+  
+  <!-- Key Roles Section -->
+  <g id="roles">
+    <text x="50" y="450" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">Key Roles</text>
+    
+    <circle cx="70" cy="480" r="15" fill="#e74c3c"/>
+    <text x="100" y="485" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">Incident Commander:</tspan> Designates owner, facilitates meeting
+    </text>
+    
+    <circle cx="70" cy="510" r="15" fill="#f39c12"/>
+    <text x="100" y="515" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">Post-Mortem Owner:</tspan> Investigates, writes, presents findings
+    </text>
+    
+    <circle cx="70" cy="540" r="15" fill="#27ae60"/>
+    <text x="100" y="545" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">Team Members:</tspan> Provide input, review, attend meeting
+    </text>
+  </g>
+  
+  <!-- Status Tracking Section -->
+  <g id="status">
+    <text x="500" y="450" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">Status Tracking</text>
+    
+    <rect x="500" y="465" width="80" height="20" rx="5" fill="#f39c12"/>
+    <text x="540" y="478" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white" font-weight="bold">Draft</text>
+    <text x="590" y="478" font-family="Arial, sans-serif" font-size="11" fill="#2c3e50">Investigation in progress</text>
+    
+    <rect x="500" y="490" width="80" height="20" rx="5" fill="#8e44ad"/>
+    <text x="540" y="503" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white" font-weight="bold">In Review</text>
+    <text x="590" y="503" font-family="Arial, sans-serif" font-size="11" fill="#2c3e50">Ready for team review</text>
+    
+    <rect x="500" y="515" width="80" height="20" rx="5" fill="#2980b9"/>
+    <text x="540" y="528" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white" font-weight="bold">Reviewed</text>
+    <text x="590" y="528" font-family="Arial, sans-serif" font-size="11" fill="#2c3e50">Meeting completed</text>
+    
+    <rect x="500" y="540" width="80" height="20" rx="5" fill="#16a085"/>
+    <text x="540" y="553" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white" font-weight="bold">Closed</text>
+    <text x="590" y="553" font-family="Arial, sans-serif" font-size="11" fill="#2c3e50">All actions complete</text>
+  </g>
+  
+  <!-- Timeline Guidelines -->
+  <g id="timeline">
+    <text x="750" y="450" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">Timeline Guidelines</text>
+    
+    <circle cx="760" cy="475" r="5" fill="#e74c3c"/>
+    <text x="775" y="480" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">P1 (SEV-1):</tspan> Meeting within 3 calendar days
+    </text>
+    
+    <circle cx="760" cy="500" r="5" fill="#9b59b6"/>
+    <text x="775" y="505" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">P2 (SEV-2):</tspan> Meeting within 5 business days
+    </text>
+    
+    <circle cx="760" cy="525" r="5" fill="#27ae60"/>
+    <text x="775" y="530" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">Internal Review:</tspan> 24 hours before meeting
+    </text>
+    
+    <circle cx="760" cy="550" r="5" fill="#f39c12"/>
+    <text x="775" y="555" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">Meeting Duration:</tspan> 15-30 minutes focused discussion
+    </text>
+  </g>
+  
+  <!-- Best Practices Box -->
+  <g id="practices">
+    <rect x="50" y="600" width="1100" height="120" rx="10" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2"/>
+    <text x="600" y="625" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">PagerDuty-Aligned Best Practices</text>
+    
+    <text x="80" y="650" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• Timeline First:</tspan> Start with detailed timeline, add analysis later
+    </text>
+    
+    <text x="80" y="670" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• Evidence Links:</tspan> Every timeline entry needs supporting data links
+    </text>
+    
+    <text x="80" y="690" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• Customer Focus:</tspan> Always include customer impact and perspective
+    </text>
+    
+    <text x="450" y="650" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• Blameless Culture:</tspan> Focus on systems and processes, not individuals
+    </text>
+    
+    <text x="450" y="670" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• P0/P1 Actions Only:</tspan> Create tickets for high-impact improvements only
+    </text>
+    
+    <text x="450" y="690" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• Language Matters:</tspan> Use "incident" not "outage" unless total failure
+    </text>
+    
+    <text x="800" y="650" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• Internal Review:</tspan> Slack feedback before meeting saves time
+    </text>
+    
+    <text x="800" y="670" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• Meeting Focus:</tspan> Agree on facts, analysis, and actions
+    </text>
+    
+    <text x="800" y="690" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">
+      <tspan font-weight="bold">• Continuous Learning:</tspan> Track trends and improve processes
+    </text>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34495e"/>
+    </marker>
+  </defs>
+</svg>
