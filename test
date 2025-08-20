@@ -1,0 +1,190 @@
+#!/usr/bin/env python3
+"""
+Lightweight PlanIT API Connect Mapping Script
+=============================================
+One-time execution script to map PlanIT application IDs to API Connect specifications.
+"""
+
+import os
+import csv
+import yaml
+import json
+import subprocess
+import tempfile
+import shutil
+from pathlib import Path
+
+# Configuration - Update these paths as needed
+SPREADSHEET_PATH = "planit_apps.csv"  # Your CSV file path
+OUTPUT_FILE = "planit_api_mapping.csv"
+
+def load_active_apps():
+    """Load active applications from CSV"""
+    apps = []
+    with open(SPREADSHEET_PATH, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if (row.get('App State', '').lower() == 'active' and 
+                row.get('Repository State', '').lower() == 'active' and
+                row.get('Repository URI', '')):
+                apps.append({
+                    'app_id': row.get('App ID', '').strip(),
+                    'app_name': row.get('App Name', '').strip(),
+                    'repo_name': row.get('Repository Name', row.get('Repistory Name', '')).strip(),
+                    'repo_uri': row.get('Repository URI', '').strip()
+                })
+    return apps
+
+def clone_repo(repo_uri, repo_name, temp_dir):
+    """Clone repository to temp directory"""
+    local_path = os.path.join(temp_dir, repo_name)
+    try:
+        subprocess.run(['git', 'clone', repo_uri, local_path], 
+                      check=True, capture_output=True, text=True)
+        return local_path
+    except:
+        print(f"Failed to clone: {repo_name}")
+        return None
+
+def find_yaml_files(repo_path):
+    """Find all YAML files in repository"""
+    yaml_files = []
+    for root, dirs, files in os.walk(repo_path):
+        # Skip hidden and build directories
+        dirs[:] = [d for d in dirs if not d.startswith('.') and 
+                  d not in ['node_modules', '__pycache__', 'build', 'dist']]
+        
+        for file in files:
+            if file.lower().endswith(('.yaml', '.yml')):
+                yaml_files.append(os.path.join(root, file))
+    return yaml_files
+
+def parse_yaml_safe(file_path):
+    """Safely parse YAML file"""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return yaml.safe_load(f)
+    except:
+        return None
+
+def is_openapi_spec(content):
+    """Check if content is OpenAPI spec with IBM extensions"""
+    if not isinstance(content, dict):
+        return False
+    
+    # Look for OpenAPI indicators and IBM extensions
+    has_openapi = 'openapi' in content or 'swagger' in content
+    has_ibm_name = content.get('info', {}).get('x-ibm-name')
+    has_paths = 'paths' in content
+    
+    return has_openapi and (has_ibm_name or has_paths)
+
+def is_product_spec(content):
+    """Check if content is API Connect Product spec"""
+    if not isinstance(content, dict):
+        return False
+    
+    return (content.get('product') and 
+            content.get('info', {}).get('name'))
+
+def extract_api_name(content, spec_type):
+    """Extract API name from specification"""
+    info = content.get('info', {})
+    
+    if spec_type == 'openapi':
+        return info.get('x-ibm-name') or info.get('title')
+    elif spec_type == 'product':
+        return info.get('name')
+    
+    return None
+
+def process_repo(app, temp_dir):
+    """Process single repository for API specs"""
+    results = []
+    
+    repo_path = clone_repo(app['repo_uri'], app['repo_name'], temp_dir)
+    if not repo_path:
+        return results
+    
+    yaml_files = find_yaml_files(repo_path)
+    print(f"  Found {len(yaml_files)} YAML files")
+    
+    for yaml_file in yaml_files:
+        content = parse_yaml_safe(yaml_file)
+        if not content:
+            continue
+        
+        rel_path = os.path.relpath(yaml_file, repo_path)
+        folder_path = os.path.dirname(rel_path)
+        
+        # Check for OpenAPI spec
+        if is_openapi_spec(content):
+            api_name = extract_api_name(content, 'openapi')
+            if api_name:
+                results.append({
+                    'PlanIT_App_ID': app['app_id'],
+                    'PlanIT_App_Name': app['app_name'],
+                    'Repository_Name': app['repo_name'],
+                    'File_Path': rel_path,
+                    'Spec_Type': 'openapi',
+                    'API_Name': api_name,
+                    'Folder_Path': folder_path
+                })
+                print(f"    OpenAPI: {api_name}")
+        
+        # Check for Product spec
+        elif is_product_spec(content):
+            product_name = extract_api_name(content, 'product')
+            if product_name:
+                results.append({
+                    'PlanIT_App_ID': app['app_id'],
+                    'PlanIT_App_Name': app['app_name'],
+                    'Repository_Name': app['repo_name'],
+                    'File_Path': rel_path,
+                    'Spec_Type': 'product',
+                    'API_Name': product_name,
+                    'Folder_Path': folder_path
+                })
+                print(f"    Product: {product_name}")
+    
+    return results
+
+def main():
+    """Main execution"""
+    print("Loading PlanIT applications...")
+    apps = load_active_apps()
+    print(f"Found {len(apps)} active applications")
+    
+    # Create temp directory for cloning
+    temp_dir = tempfile.mkdtemp(prefix='planit_repos_')
+    all_results = []
+    
+    try:
+        for i, app in enumerate(apps, 1):
+            print(f"\n[{i}/{len(apps)}] Processing: {app['app_name']} ({app['app_id']})")
+            results = process_repo(app, temp_dir)
+            all_results.extend(results)
+        
+        # Write results to CSV
+        if all_results:
+            with open(OUTPUT_FILE, 'w', newline='') as csvfile:
+                fieldnames = ['PlanIT_App_ID', 'PlanIT_App_Name', 'Repository_Name', 
+                            'File_Path', 'Spec_Type', 'API_Name', 'Folder_Path']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(all_results)
+            
+            print(f"\n✅ Results written to: {OUTPUT_FILE}")
+            print(f"📊 Total specifications found: {len(all_results)}")
+            print(f"   - OpenAPI specs: {len([r for r in all_results if r['Spec_Type'] == 'openapi'])}")
+            print(f"   - Product specs: {len([r for r in all_results if r['Spec_Type'] == 'product'])}")
+        else:
+            print("\n⚠️  No API Connect specifications found")
+    
+    finally:
+        # Cleanup temp directory
+        shutil.rmtree(temp_dir)
+        print("🧹 Temporary files cleaned up")
+
+if __name__ == "__main__":
+    main()
