@@ -1,0 +1,2573 @@
+{
+“annotations”: {
+“list”: [
+{
+“builtIn”: 1,
+“datasource”: {
+“type”: “grafana”,
+“uid”: “– Grafana –”
+},
+“enable”: true,
+“hide”: true,
+“iconColor”: “rgba(0, 211, 255, 1)”,
+“name”: “Annotations & Alerts”,
+“type”: “dashboard”
+}
+]
+},
+“editable”: true,
+“fiscalYearStartMonth”: 0,
+“graphTooltip”: 0,
+“id”: null,
+“links”: [],
+“liveNow”: false,
+“panels”: [
+{
+“collapsed”: false,
+“gridPos”: {
+“h”: 1,
+“w”: 24,
+“x”: 0,
+“y”: 0
+},
+“id”: 1,
+“panels”: [],
+“title”: “Channel Health Overview”,
+“type”: “row”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 6,
+“x”: 0,
+“y”: 1
+},
+“id”: 2,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“min”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “ActiveOutputs”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Minimum”
+]
+}
+],
+“title”: “Active Outputs”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [],
+“thresholds”: {
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 6,
+“x”: 6,
+“y”: 1
+},
+“id”: 3,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “ActiveAlerts”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Active Alerts”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [],
+“thresholds”: {
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “yellow”,
+“value”: 1
+},
+{
+“color”: “red”,
+“value”: 1000
+}
+]
+},
+“unit”: “ms”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 6,
+“x”: 12,
+“y”: 1
+},
+“id”: 4,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“max”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “FillMsec”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Maximum”
+]
+}
+],
+“title”: “Fill Milliseconds”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [],
+“thresholds”: {
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 6,
+“x”: 18,
+“y”: 1
+},
+“id”: 5,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“sum”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“Pipeline”: “$pipeline”,
+“Region”: “$region”
+},
+“metricName”: “DroppedFrames”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+}
+],
+“title”: “Dropped Frames”,
+“type”: “stat”
+},
+{
+“collapsed”: false,
+“gridPos”: {
+“h”: 1,
+“w”: 24,
+“x”: 0,
+“y”: 9
+},
+“id”: 6,
+“panels”: [],
+“title”: “Output Performance Metrics”,
+“type”: “row”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “Mbits”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 12,
+“x”: 0,
+“y”: 10
+},
+“id”: 7,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “NetworkOut”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Network Output (Mbps)”,
+“type”: “timeseries”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “percent”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 12,
+“x”: 12,
+“y”: 10
+},
+“id”: 8,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“Pipeline”: “$pipeline”,
+“Region”: “$region”
+},
+“metricName”: “SvqTime”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “SVQ Time (Quality Optimization %)”,
+“type”: “timeseries”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 12,
+“x”: 0,
+“y”: 18
+},
+“id”: 9,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“OutputGroupName”: “$output_group”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “Output4xxErrors”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“OutputGroupName”: “$output_group”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “Output5xxErrors”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “B”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+}
+],
+“title”: “Output HTTP Errors”,
+“type”: “timeseries”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “dB”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 12,
+“x”: 12,
+“y”: 18
+},
+“id”: 10,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“AudioDescriptionName”: “$audio_description”,
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “OutputAudioLevelDbfs”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“AudioDescriptionName”: “$audio_description”,
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “OutputAudioLevelLkfs”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “B”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Output Audio Levels”,
+“type”: “timeseries”
+},
+{
+“collapsed”: false,
+“gridPos”: {
+“h”: 1,
+“w”: 24,
+“x”: 0,
+“y”: 26
+},
+“id”: 11,
+“panels”: [],
+“title”: “Input Monitoring Metrics”,
+“type”: “row”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “Mbits”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 12,
+“x”: 0,
+“y”: 27
+},
+“id”: 12,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “NetworkIn”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Network Input (Mbps)”,
+“type”: “timeseries”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “fps”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 12,
+“x”: 12,
+“y”: 27
+},
+“id”: 13,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “InputVideoFrameRate”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Input Video Frame Rate”,
+“type”: “timeseries”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [
+{
+“options”: {
+“0”: {
+“color”: “red”,
+“index”: 0,
+“text”: “Inactive”
+},
+“1”: {
+“color”: “green”,
+“index”: 1,
+“text”: “Active”
+}
+},
+“type”: “value”
+}
+],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 6,
+“x”: 0,
+“y”: 35
+},
+“id”: 14,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “PrimaryInputActive”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Primary Input Active”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [
+{
+“options”: {
+“0”: {
+“color”: “red”,
+“index”: 0,
+“text”: “No”
+},
+“1”: {
+“color”: “green”,
+“index”: 1,
+“text”: “Yes”
+}
+},
+“type”: “value”
+}
+],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 6,
+“x”: 6,
+“y”: 35
+},
+“id”: 15,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “InputTimecodesPresent”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Input Timecodes Present”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [],
+“thresholds”: {
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “yellow”,
+“value”: 1
+},
+{
+“color”: “red”,
+“value”: 5
+}
+]
+},
+“unit”: “s”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 6,
+“x”: 12,
+“y”: 35
+},
+“id”: 16,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“max”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “InputLossSeconds”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Maximum”
+]
+}
+],
+“title”: “Input Loss Seconds”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [],
+“thresholds”: {
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 1
+}
+]
+},
+“unit”: “s”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 6,
+“x”: 18,
+“y”: 35
+},
+“id”: 17,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“sum”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “ChannelInputErrorSeconds”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+}
+],
+“title”: “Channel Input Error Seconds”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 24,
+“x”: 0,
+“y”: 43
+},
+“id”: 18,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “RtpPacketsReceived”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “RtpPacketsLost”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “B”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “RtpPacketsRecoveredViaFec”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “C”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+}
+],
+“title”: “RTP Packet Statistics”,
+“type”: “timeseries”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 24,
+“x”: 0,
+“y”: 51
+},
+“id”: 19,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “FecRowPacketsReceived”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“ChannelId”: “$channel_id”,
+“Pipeline”: “$pipeline”
+},
+“metricName”: “FecColumnPacketsReceived”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “B”,
+“region”: “default”,
+“statistics”: [
+“Sum”
+]
+}
+],
+“title”: “FEC Packet Reception”,
+“type”: “timeseries”
+},
+{
+“collapsed”: false,
+“gridPos”: {
+“h”: 1,
+“w”: 24,
+“x”: 0,
+“y”: 59
+},
+“id”: 20,
+“panels”: [],
+“title”: “Input Device Metrics (AWS Elemental Link)”,
+“type”: “row”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [
+{
+“options”: {
+“0”: {
+“color”: “red”,
+“index”: 0,
+“text”: “Inactive”
+},
+“1”: {
+“color”: “green”,
+“index”: 1,
+“text”: “Active”
+}
+},
+“type”: “value”
+}
+],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 6,
+“w”: 4,
+“x”: 0,
+“y”: 60
+},
+“id”: 21,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “UsingSdi”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Using SDI”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [
+{
+“options”: {
+“0”: {
+“color”: “red”,
+“index”: 0,
+“text”: “Inactive”
+},
+“1”: {
+“color”: “green”,
+“index”: 1,
+“text”: “Active”
+}
+},
+“type”: “value”
+}
+],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 6,
+“w”: 4,
+“x”: 4,
+“y”: 60
+},
+“id”: 22,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “UsingHdmi”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Using HDMI”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [
+{
+“options”: {
+“0”: {
+“color”: “red”,
+“index”: 0,
+“text”: “Unlocked”
+},
+“1”: {
+“color”: “green”,
+“index”: 1,
+“text”: “Locked”
+}
+},
+“type”: “value”
+}
+],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 6,
+“w”: 4,
+“x”: 8,
+“y”: 60
+},
+“id”: 23,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “InputLocked”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Input Locked”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [
+{
+“options”: {
+“0”: {
+“color”: “red”,
+“index”: 0,
+“text”: “Stopped”
+},
+“1”: {
+“color”: “green”,
+“index”: 1,
+“text”: “Running”
+}
+},
+“type”: “value”
+}
+],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 6,
+“w”: 4,
+“x”: 12,
+“y”: 60
+},
+“id”: 24,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “EncoderRunning”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Encoder Running”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [
+{
+“options”: {
+“0”: {
+“color”: “red”,
+“index”: 0,
+“text”: “Disconnected”
+},
+“1”: {
+“color”: “green”,
+“index”: 1,
+“text”: “Connected”
+}
+},
+“type”: “value”
+}
+],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 6,
+“w”: 4,
+“x”: 16,
+“y”: 60
+},
+“id”: 25,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “LinkedToStreamEndpoint”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Linked to Stream Endpoint”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [
+{
+“options”: {
+“0”: {
+“color”: “red”,
+“index”: 0,
+“text”: “Not Streaming”
+},
+“1”: {
+“color”: “green”,
+“index”: 1,
+“text”: “Streaming”
+}
+},
+“type”: “value”
+}
+],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “green”,
+“value”: 1
+}
+]
+},
+“unit”: “short”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 6,
+“w”: 4,
+“x”: 20,
+“y”: 60
+},
+“id”: 26,
+“options”: {
+“colorMode”: “background”,
+“graphMode”: “area”,
+“justifyMode”: “auto”,
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“textMode”: “auto”
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “Streaming”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Streaming”,
+“type”: “stat”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [],
+“thresholds”: {
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “yellow”,
+“value”: 60
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “celsius”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 8,
+“x”: 0,
+“y”: 66
+},
+“id”: 27,
+“options”: {
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“showThresholdLabels”: false,
+“showThresholdMarkers”: true
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “Temperature”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Device Temperature”,
+“type”: “gauge”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “palette-classic”
+},
+“custom”: {
+“axisLabel”: “”,
+“axisPlacement”: “auto”,
+“barAlignment”: 0,
+“drawStyle”: “line”,
+“fillOpacity”: 10,
+“gradientMode”: “none”,
+“hideFrom”: {
+“legend”: false,
+“tooltip”: false,
+“vis”: false
+},
+“lineInterpolation”: “linear”,
+“lineWidth”: 1,
+“pointSize”: 5,
+“scaleDistribution”: {
+“type”: “linear”
+},
+“showPoints”: “never”,
+“spanNulls”: false,
+“stacking”: {
+“group”: “A”,
+“mode”: “none”
+},
+“thresholdsStyle”: {
+“mode”: “off”
+}
+},
+“mappings”: [],
+“thresholds”: {
+“mode”: “absolute”,
+“steps”: [
+{
+“color”: “green”,
+“value”: null
+},
+{
+“color”: “red”,
+“value”: 80
+}
+]
+},
+“unit”: “bps”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 8,
+“x”: 8,
+“y”: 66
+},
+“id”: 28,
+“options”: {
+“legend”: {
+“calcs”: [],
+“displayMode”: “list”,
+“placement”: “bottom”,
+“showLegend”: true
+},
+“tooltip”: {
+“mode”: “single”,
+“sort”: “none”
+}
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “ConfiguredBitrate”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “EncoderBitrate”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “B”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Device Bitrates”,
+“type”: “timeseries”
+},
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“fieldConfig”: {
+“defaults”: {
+“color”: {
+“mode”: “thresholds”
+},
+“mappings”: [],
+“thresholds”: {
+“steps”: [
+{
+“color”: “red”,
+“value”: null
+},
+{
+“color”: “yellow”,
+“value”: 50
+},
+{
+“color”: “green”,
+“value”: 80
+}
+]
+},
+“unit”: “percent”
+},
+“overrides”: []
+},
+“gridPos”: {
+“h”: 8,
+“w”: 8,
+“x”: 16,
+“y”: 66
+},
+“id”: 29,
+“options”: {
+“orientation”: “auto”,
+“reduceOptions”: {
+“calcs”: [
+“lastNotNull”
+],
+“fields”: “”,
+“values”: false
+},
+“showThresholdLabels”: false,
+“showThresholdMarkers”: true
+},
+“pluginVersion”: “10.0.0”,
+“targets”: [
+{
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“dimensions”: {
+“DeviceType”: “$device_type”,
+“InputDeviceId”: “$input_device_id”
+},
+“metricName”: “ConfiguredBitrateAvailable”,
+“namespace”: “AWS/MediaLive”,
+“period”: “”,
+“refId”: “A”,
+“region”: “default”,
+“statistics”: [
+“Average”
+]
+}
+],
+“title”: “Configured Bitrate Available (%)”,
+“type”: “gauge”
+}
+],
+“refresh”: “30s”,
+“schemaVersion”: 38,
+“style”: “dark”,
+“tags”: [
+“aws”,
+“medialive”,
+“streaming”,
+“monitoring”
+],
+“templating”: {
+“list”: [
+{
+“current”: {
+“selected”: false,
+“text”: “us-east-1”,
+“value”: “us-east-1”
+},
+“hide”: 0,
+“includeAll”: false,
+“label”: “Region”,
+“multi”: false,
+“name”: “region”,
+“options”: [
+{
+“selected”: true,
+“text”: “us-east-1”,
+“value”: “us-east-1”
+},
+{
+“selected”: false,
+“text”: “us-west-2”,
+“value”: “us-west-2”
+},
+{
+“selected”: false,
+“text”: “eu-west-1”,
+“value”: “eu-west-1”
+}
+],
+“query”: “us-east-1,us-west-2,eu-west-1”,
+“queryValue”: “”,
+“skipUrlSync”: false,
+“type”: “custom”
+},
+{
+“current”: {
+“selected”: false,
+“text”: “”,
+“value”: “”
+},
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“definition”: “dimension_values($region,AWS/MediaLive,ActiveOutputs,ChannelId)”,
+“hide”: 0,
+“includeAll”: false,
+“label”: “Channel ID”,
+“multi”: false,
+“name”: “channel_id”,
+“options”: [],
+“query”: “dimension_values($region,AWS/MediaLive,ActiveOutputs,ChannelId)”,
+“refresh”: 1,
+“regex”: “”,
+“skipUrlSync”: false,
+“sort”: 0,
+“type”: “query”
+},
+{
+“current”: {
+“selected”: false,
+“text”: “”,
+“value”: “”
+},
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“definition”: “dimension_values($region,AWS/MediaLive,ActiveOutputs,Pipeline)”,
+“hide”: 0,
+“includeAll”: false,
+“label”: “Pipeline”,
+“multi”: false,
+“name”: “pipeline”,
+“options”: [],
+“query”: “dimension_values($region,AWS/MediaLive,ActiveOutputs,Pipeline)”,
+“refresh”: 1,
+“regex”: “”,
+“skipUrlSync”: false,
+“sort”: 0,
+“type”: “query”
+},
+{
+“current”: {
+“selected”: false,
+“text”: “”,
+“value”: “”
+},
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“definition”: “dimension_values($region,AWS/MediaLive,Output4xxErrors,OutputGroupName)”,
+“hide”: 0,
+“includeAll”: false,
+“label”: “Output Group”,
+“multi”: false,
+“name”: “output_group”,
+“options”: [],
+“query”: “dimension_values($region,AWS/MediaLive,Output4xxErrors,OutputGroupName)”,
+“refresh”: 1,
+“regex”: “”,
+“skipUrlSync”: false,
+“sort”: 0,
+“type”: “query”
+},
+{
+“current”: {
+“selected”: false,
+“text”: “”,
+“value”: “”
+},
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“definition”: “dimension_values($region,AWS/MediaLive,OutputAudioLevelDbfs,AudioDescriptionName)”,
+“hide”: 0,
+“includeAll”: false,
+“label”: “Audio Description”,
+“multi”: false,
+“name”: “audio_description”,
+“options”: [],
+“query”: “dimension_values($region,AWS/MediaLive,OutputAudioLevelDbfs,AudioDescriptionName)”,
+“refresh”: 1,
+“regex”: “”,
+“skipUrlSync”: false,
+“sort”: 0,
+“type”: “query”
+},
+{
+“current”: {
+“selected”: false,
+“text”: “”,
+“value”: “”
+},
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“definition”: “dimension_values($region,AWS/MediaLive,UsingSdi,InputDeviceId)”,
+“hide”: 0,
+“includeAll”: false,
+“label”: “Input Device ID”,
+“multi”: false,
+“name”: “input_device_id”,
+“options”: [],
+“query”: “dimension_values($region,AWS/MediaLive,UsingSdi,InputDeviceId)”,
+“refresh”: 1,
+“regex”: “”,
+“skipUrlSync”: false,
+“sort”: 0,
+“type”: “query”
+},
+{
+“current”: {
+“selected”: false,
+“text”: “”,
+“value”: “”
+},
+“datasource”: {
+“type”: “cloudwatch”,
+“uid”: “cloudwatch”
+},
+“definition”: “dimension_values($region,AWS/MediaLive,UsingSdi,DeviceType)”,
+“hide”: 0,
+“includeAll”: false,
+“label”: “Device Type”,
+“multi”: false,
+“name”: “device_type”,
+“options”: [],
+“query”: “dimension_values($region,AWS/MediaLive,UsingSdi,DeviceType)”,
+“refresh”: 1,
+“regex”: “”,
+“skipUrlSync”: false,
+“sort”: 0,
+“type”: “query”
+}
+]
+},
+“time”: {
+“from”: “now-6h”,
+“to”: “now”
+},
+“timepicker”: {},
+“timezone”: “”,
+“title”: “AWS MediaLive Complete Metrics Dashboard”,
+“uid”: “medialive-complete-metrics”,
+“version”: 1,
+“weekStart”: “”
+}
