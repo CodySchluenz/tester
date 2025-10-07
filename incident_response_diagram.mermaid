@@ -1,0 +1,74 @@
+graph TB
+    Start([Incident Detected]) --> Assess{Assess<br/>Severity}
+    
+    Assess -->|SEV-3<br/>Minor Issue| SEV3[Create Ticket<br/>Standard Priority]
+    Assess -->|SEV-2<br/>Major Degradation| SEV2[Page On-Call<br/>Create Incident]
+    Assess -->|SEV-1<br/>Critical Outage| SEV1[Page Multiple Teams<br/>Create Critical Incident]
+    
+    SEV3 --> Track[Track in Backlog]
+    
+    SEV2 --> Declare
+    SEV1 --> Declare
+    
+    Declare[Declare Incident<br/>- Create incident channel<br/>- Assign incident number<br/>- Start timer] --> Roles
+    
+    Roles[Assign Roles<br/>- Incident Commander<br/>- Operations Lead<br/>- Communications Lead<br/>- Scribe] --> Notify
+    
+    Notify[Notify Stakeholders<br/>- Internal teams<br/>- Leadership SEV-1<br/>- Customer support] --> Investigate
+    
+    Investigate[Investigation Phase<br/>- Review monitoring/logs<br/>- Check recent changes<br/>- Consult runbooks<br/>- Execute diagnostics] --> RootCause{Root Cause<br/>Identified?}
+    
+    RootCause -->|No| UpdateStatus1[Update Status<br/>Every 30 min SEV-1<br/>Every 60 min SEV-2]
+    UpdateStatus1 --> Investigate
+    
+    RootCause -->|Yes| Mitigate[Mitigation Actions<br/>- Rollback deployment<br/>- Failover to backup<br/>- Scale resources<br/>- Apply hotfix<br/>- Disable feature]
+    
+    Mitigate --> Verify{Service<br/>Restored?}
+    
+    Verify -->|No| UpdateStatus2[Update Status<br/>Document attempts]
+    UpdateStatus2 --> Investigate
+    
+    Verify -->|Yes| MarkMitigated[Mark as MITIGATED<br/>- Service functional<br/>- Users can access<br/>- May have degraded performance]
+    
+    MarkMitigated --> Monitor[Monitor Recovery<br/>- Watch SLIs<br/>- Check error rates<br/>- Verify latency<br/>- Confirm saturation normal]
+    
+    Monitor --> FullyRestored{Fully<br/>Restored?}
+    
+    FullyRestored -->|No| Continue[Continue Monitoring]
+    Continue --> Monitor
+    
+    FullyRestored -->|Yes| Resolve[Mark as RESOLVED<br/>- All SLIs normal<br/>- All systems healthy<br/>- Calculate duration<br/>- Calculate error budget impact]
+    
+    Resolve --> Communicate[Final Communication<br/>- Notify stakeholders<br/>- Update status page<br/>- Thank responders]
+    
+    Communicate --> PostmortemDecision{Postmortem<br/>Required?}
+    
+    PostmortemDecision -->|SEV-1: Always<br/>SEV-2: Usually<br/>SEV-3: Rarely| CreatePM
+    PostmortemDecision -->|Not Required| End1([Close Incident])
+    
+    CreatePM[Create Postmortem<br/>- Auto-generate template<br/>- Populate timeline<br/>- List participants<br/>- Assign owner] --> WritePM
+    
+    WritePM[Write Postmortem<br/>- What happened<br/>- Customer impact<br/>- Root cause 5 Whys<br/>- What went well<br/>- Timeline] --> Review
+    
+    Review[Blameless Review<br/>- Team discussion<br/>- Identify systemic issues<br/>- Focus on prevention] --> Actions
+    
+    Actions[Action Items<br/>- Assign owners<br/>- Set due dates<br/>- Link to tickets<br/>- Prioritize by impact] --> Publish
+    
+    Publish[Publish Postmortem<br/>- Share with organization<br/>- Add to knowledge base<br/>- Update runbooks] --> TrackActions
+    
+    TrackActions[Track Action Items<br/>- Monitor completion<br/>- Follow up weekly<br/>- Report on progress] --> Metrics
+    
+    Metrics[Update Metrics<br/>- MTTR<br/>- MTTD<br/>- MTTA<br/>- Error budget consumed<br/>- Incident trends] --> End2([Incident Complete])
+    
+    style Start fill:#e1f5ff
+    style SEV1 fill:#ff6b6b
+    style SEV2 fill:#ffa500
+    style SEV3 fill:#ffd93d
+    style Declare fill:#4ecdc4
+    style Roles fill:#4ecdc4
+    style Mitigate fill:#95e1d3
+    style Resolve fill:#38ada9
+    style CreatePM fill:#a8e6cf
+    style Publish fill:#a8e6cf
+    style End1 fill:#e1f5ff
+    style End2 fill:#e1f5ff
