@@ -1,0 +1,1154 @@
+US-IRP-001: Create Incident Response Overview Wiki
+As a new engineer joining the operations team,
+I want a comprehensive incident response overview page on our wiki,
+So that I can quickly understand our end-to-end incident response process.
+Acceptance Criteria:
+
+Page created at github.com/the-hartford/cto_esb_apic_wiki/wiki/Incident-Response-Overview
+Visual process flow diagram showing all phases (detection through postmortem)
+Severity definitions table (SEV-1, SEV-2, SEV-3) with examples
+Brief description of all incident roles (IC, Ops Lead, Comms Lead, Scribe)
+Links to monitoring tools (Dynatrace, Splunk, MainView, DPMON)
+Quick reference section for on-call engineers
+Mobile-friendly formatting
+Page linked from wiki home page navigation
+
+Story Points: 3
+
+US-IRP-002: Conduct Incident Response Process Overview with Team
+As an SRE lead,
+I want to conduct a workshop with the team reviewing our incident response process,
+So that everyone understands their responsibilities and we can gather feedback for process improvements.
+Acceptance Criteria:
+
+90-minute workshop scheduled with all team members (API Enablement, Platform, on-call engineers)
+Presentation created covering:
+
+Process overview and workflow
+Role definitions and responsibilities
+Severity classifications
+Tools and access requirements
+Postmortem culture and expectations
+
+
+Live demonstration of incident declaration process
+Q&A session conducted and documented
+Feedback collected via survey or retro
+Action items from feedback tracked in Rally
+Workshop recording shared on wiki
+
+Story Points: 5
+
+US-IRP-003: Create Problem Dashboard in Splunk
+As an incident responder,
+I want a centralized problem dashboard in Splunk showing active issues across API Connect and DataPower,
+So that I can quickly assess system health and identify ongoing problems.
+Acceptance Criteria:
+
+Splunk dashboard created showing:
+
+Active incidents and their severity
+Error rate trends (last 24 hours) for API Connect and DataPower
+Top 10 failing APIs/services
+Recent deployment timeline
+Alert firing status across all platforms
+SLO compliance status
+
+
+Data sources include: API Connect logs, DataPower logs, Dynatrace metrics, MainView alerts
+Dashboard accessible via bookmarkable URL
+Auto-refresh enabled (30-60 second interval)
+Mobile-responsive layout
+Dashboard linked from incident response wiki
+
+Story Points: 8
+
+US-IRP-004: Define API Enablement Team Role Guide
+As a member of the API Enablement team,
+I want clear documentation of my responsibilities during incidents,
+So that I know when and how to engage during API-related incidents.
+Acceptance Criteria:
+
+Wiki page created: /wiki/API-Enablement-Team-Role-Guide
+Document includes:
+
+Team scope: API product ownership and support
+When team is engaged (API-specific incidents, policy issues, consumer impacts)
+Responsibilities during incidents (provide API expertise, assist with root cause analysis, coordinate with API consumers)
+Escalation criteria to architecture or product teams
+Tools and access requirements
+Example scenarios (API performance degradation, authentication failures, rate limit issues)
+
+
+On-call rotation responsibilities clarified
+Relationship to Platform team defined
+2 team members review and approve
+
+Story Points: 5
+
+US-IRP-005: Define Cross Team Incident Response Process
+As an Incident Commander managing complex incidents,
+I want documented procedures for coordinating across API Enablement and Platform teams,
+So that multi-team incidents are handled efficiently without confusion.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Cross-Team-Incident-Response
+Document includes:
+
+Decision criteria: When to engage multiple teams
+Communication structure (shared incident channel, coordination bridge)
+Multiple Operations Leads coordination (one per team)
+Handoff procedures between teams
+Service ownership matrix (API Enablement vs Platform responsibilities)
+Escalation paths for cross-team decisions
+Sub-incident creation for parallel work
+
+
+Example scenarios: API Connect platform issue affecting specific APIs, DataPower failure impacting multiple API products
+Tested during next game day exercise
+
+Story Points: 8
+
+US-IRP-006: Define Error Budget Reconciliation Process
+As a Product Manager,
+I want a documented process for calculating incident impact on error budgets,
+So that I can make informed decisions about feature velocity vs reliability investments.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Error-Budget-Reconciliation
+Document includes:
+
+Error budget concept and formula
+How incidents consume error budget (duration × scope)
+Calculation examples for partial outages
+Reconciliation frequency (weekly review)
+Who performs reconciliation (SRE + Product)
+Policy actions at different budget levels (25%, 10%, exhausted)
+Dashboard or spreadsheet template for tracking
+Integration with postmortem process
+
+
+Per-service error budget tracking defined
+Process owner assigned
+
+Story Points: 5
+
+US-IRP-007: Define Incident Change Management Process
+As an Incident Commander,
+I want clear guidelines for when and how to implement emergency changes during incidents,
+So that I can balance urgency with proper change control.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Change-Management
+Document includes:
+
+Emergency change definition and approval authority
+Standard vs emergency change procedures
+Required approvals by severity and environment
+Documentation requirements (what, why, who, when)
+Rollback procedures and criteria
+Post-incident change review process
+Compliance and audit requirements
+
+
+Integration with existing change management tools
+Expedited approval workflows documented
+Examples: emergency hotfix, configuration rollback, failover execution
+
+Story Points: 5
+
+US-IRP-008: Define Incident Commander Role Guide
+As someone assigned as Incident Commander,
+I want comprehensive documentation of my role and responsibilities,
+So that I can effectively lead incident response.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Commander-Role-Guide
+Document includes:
+
+Role purpose and scope
+Key responsibilities from declaration through postmortem assignment
+Decision-making authority and escalation criteria
+Communication cadence by severity (SEV-1: every 30 min, SEV-2: hourly)
+How to run incident bridges
+Status update templates
+Handoff procedures for extended incidents
+Common scenarios and decision frameworks
+Checklist from declaration to closure
+
+
+Communication templates included (initial notification, status update, resolution)
+3 experienced ICs review and approve
+
+Story Points: 8
+
+US-IRP-009: Define Incident Communication Process
+As a Communications Lead,
+I want templates and procedures for stakeholder communications,
+So that I can provide timely, consistent updates during incidents.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Communication-Process
+Document includes:
+
+Stakeholder identification by severity (internal teams, executives, customers, partners)
+Communication channels (Slack, email, status page, Teams)
+Update frequency by severity
+Communication templates:
+
+Initial notification (incident declared)
+Status updates (investigation in progress, mitigated, resolved)
+Executive summary (for leadership)
+Customer communication (if applicable)
+
+
+Status page update procedures
+How to communicate uncertainty without speculation
+Approval requirements for external communication
+
+
+Templates are copy-paste ready
+
+Story Points: 5
+
+US-IRP-010: Define Incident Declaration Process
+As a first responder,
+I want step-by-step procedures for declaring an incident,
+So that I can quickly mobilize response without missing critical steps.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Declaration-Process
+Document includes:
+
+When to declare an incident vs creating a ticket
+Declaration checklist:
+
+Assess severity using decision tree
+Create incident in management tool
+Create dedicated Slack/Teams channel
+Page appropriate on-call rotation
+Assign Incident Commander
+Initial status update
+
+
+Tool-specific instructions (screenshots)
+Incident naming conventions
+Required fields and how to populate them
+Who gets notified automatically by severity
+What to do if unsure about declaring
+
+
+
+Story Points: 5
+
+US-IRP-011: Define Incident Detection and Alerting Process
+As an on-call engineer,
+I want documentation on how alerts are generated and what actions to take,
+So that I can respond appropriately when paged.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Detection-and-Alerting
+Document includes:
+
+Monitoring stack overview (Dynatrace, Splunk, MainView, DPMON)
+Four golden signals: latency, traffic, errors, saturation
+Alert sources and their meaning
+Alert severity mapping (monitoring alert severity → incident severity)
+How to access alerting dashboards
+Alert acknowledgment procedures
+When alerts require immediate incident declaration
+False positive handling
+Alert escalation if no response
+
+
+Links to key dashboards for each monitoring tool
+Common alert patterns and what they indicate
+
+Story Points: 5
+
+US-IRP-012: Define Incident Escalation Process
+As an Incident Commander,
+I want clear escalation paths and criteria,
+So that I know when and how to get additional help.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Escalation-Process
+Document includes:
+
+Escalation decision criteria (time-based, complexity, customer impact)
+Technical escalation paths:
+
+Service owners by component
+Architecture team
+Platform team vs API Enablement team
+Vendor support (IBM, AWS)
+
+
+Management escalation thresholds:
+
+Manager notification (SEV-1 immediate, SEV-2 after 1 hour)
+Director/VP notification (SEV-1 >1 hour)
+
+
+Emergency contact procedures
+How to request additional responders
+After-hours escalation considerations
+
+
+On-call schedule links or contact directory
+
+Story Points: 5
+
+US-IRP-013: Define Incident Metrics & KPIs
+As an SRE lead,
+I want documented metrics that measure our incident response effectiveness,
+So that I can track improvements and identify areas needing attention.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Metrics-and-KPIs
+Document includes:
+
+Key metrics with definitions:
+
+MTTD (Mean Time To Detect)
+MTTA (Mean Time To Acknowledge)
+MTTR (Mean Time To Recovery)
+Incident frequency by service and severity
+Error budget consumption rate
+On-call load (pages per shift)
+Postmortem completion rate
+Action item completion rate
+
+
+How metrics are calculated
+Target values or benchmarks
+Dashboard location for viewing metrics
+Review cadence (weekly, monthly, quarterly)
+How metrics inform decision-making
+
+
+Dashboard created or planned (separate story)
+
+Story Points: 5
+
+US-IRP-014: Define Incident Resolution Criteria
+As an Incident Commander,
+I want objective criteria for declaring incidents mitigated and resolved,
+So that I don't prematurely close incidents or keep them open unnecessarily.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Resolution-Criteria
+Document includes:
+
+Clear definitions:
+
+Mitigated: Service functional but may have degraded performance, immediate customer impact stopped
+Resolved: All systems normal, SLIs within targets, root cause addressed or understood
+
+
+Verification checklist for each state:
+
+Health checks passing
+Error rates normal
+Latency within SLO
+User flows tested
+Monitoring confirms stability
+
+
+Observation period recommendations (1-2 hours post-mitigation)
+When to reopen incidents
+Follow-up work creation process
+
+
+Examples for common incident types
+
+Story Points: 3
+
+US-IRP-015: Define Incident Response Tools and Techniques
+As an Operations Lead,
+I want a comprehensive guide to diagnostic tools and investigation techniques,
+So that I can quickly identify root causes.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Response-Tools-and-Techniques
+Document includes:
+
+Tool inventory with access links:
+
+Dynatrace (API Connect APM, distributed tracing)
+Splunk (log search and analysis)
+MainView (DataPower middleware monitoring)
+DPMON (DataPower appliance metrics)
+AWS Console (EKS, infrastructure)
+
+
+Investigation methodology:
+
+Start with four golden signals
+Check recent changes (deployments, config)
+Review distributed traces
+Analyze logs with correlation IDs
+Check dependencies and external services
+
+
+Common diagnostic queries for Splunk
+Dynatrace navigation paths for API Connect issues
+DataPower CLI commands for diagnostics
+When to involve subject matter experts
+
+
+
+Story Points: 8
+
+US-IRP-016: Define Incident Runbook Utilization Process
+As an on-call engineer,
+I want standards for creating and using runbooks during incidents,
+So that I have reliable step-by-step procedures when responding.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Runbook-Utilization
+Document includes:
+
+Runbook template and structure:
+
+Problem symptoms
+Diagnostic steps with expected outputs
+Remediation actions
+Rollback procedures
+Escalation criteria
+
+
+Where runbooks are stored
+How to find the right runbook (linked from alerts, searchable wiki)
+When to follow runbooks vs deviate (use judgment)
+How to update runbooks after incidents
+Runbook review and maintenance process (quarterly)
+Standards for writing clear procedures
+
+
+Link runbook creation to postmortem action items
+
+Story Points: 5
+
+US-IRP-017: Define Incident Scribe Role Guide
+As a Scribe during an incident,
+I want clear instructions on what to document,
+So that I capture critical information for postmortems.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Scribe-Role-Guide
+Document includes:
+
+Role purpose: Real-time documentation for postmortem
+What to capture:
+
+Timeline of events with timestamps
+Actions taken and their outcomes
+Key decisions and rationale
+Communication sent to stakeholders
+People involved and roles
+System state observations
+
+
+Where to document (incident tool, shared doc)
+Level of detail needed (high during active response)
+Timestamp best practices (use UTC or consistent timezone)
+Handoff to postmortem author
+Example timeline format
+
+
+
+Story Points: 3
+
+US-IRP-018: Define Incident Severity Definitions
+As an engineer detecting an anomaly,
+I want clear, objective criteria for classifying incident severity,
+So that I can make quick and correct severity assessments.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Incident-Severity-Definitions
+Document includes:
+
+Severity table with definitions:
+
+SEV-1: Complete outage, critical service unavailable, data loss, security breach - Response time: 15 minutes
+SEV-2: Significant degradation, major functionality impaired, subset of users affected - Response time: 30 minutes
+SEV-3: Minor issues, minimal customer impact, workarounds available - Response time: Next business day
+
+
+Customer impact descriptions for each level
+Real-world examples from our environment (API Connect unavailable = SEV-1, single API slow = SEV-2/3)
+Decision tree or flowchart for classification
+When to escalate severity during incident
+Edge cases and how to handle ambiguity
+
+
+
+Story Points: 3
+
+US-IRP-019: Define On-Call Onboarding Process & Checklist
+As a new engineer preparing for on-call,
+I want a comprehensive onboarding checklist,
+So that I'm fully prepared before my first shift.
+Acceptance Criteria:
+
+Wiki page created: /wiki/On-Call-Onboarding-Process
+Checklist includes:
+
+Prerequisites:
+
+System architecture understanding
+Service ownership knowledge
+Completed incident response training
+
+
+Access verification:
+
+Dynatrace, Splunk, MainView, DPMON
+AWS Console, EKS clusters
+Incident management tool
+Communication channels (Slack/Teams)
+VPN and remote access
+
+
+Required training modules completed
+Shadow shifts (observe 2-3 incidents)
+Practice exercises (game day participation)
+Runbook familiarization
+Manager/mentor sign-off
+
+
+Tracking mechanism for completion (spreadsheet or tool)
+Timeline: 2-4 weeks before first solo shift
+
+Story Points: 5
+
+US-IRP-020: Define On-Call Process & Expectations
+As an on-call engineer,
+I want clear documentation of my responsibilities and what's expected,
+So that I know how to fulfill my on-call duties.
+Acceptance Criteria:
+
+Wiki page created: /wiki/On-Call-Process-and-Expectations
+Document includes:
+
+On-call schedule and rotation (weekly, follow-the-sun, etc.)
+Response time SLAs by severity
+What to do when receiving an alert:
+
+Acknowledge within X minutes
+Assess severity
+Declare incident if needed
+Begin investigation
+
+
+Escalation when unsure or need help
+Handoff procedures to next on-call
+After-hours expectations
+Compensation and time-off policies
+How to swap shifts
+Health and well-being considerations (don't respond if impaired, take breaks during long incidents)
+
+
+
+Story Points: 5
+
+US-IRP-021: Define Platform Team Role Guide
+As a member of the Platform team,
+I want documentation of my responsibilities during incidents,
+So that I know when and how to engage for platform-level issues.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Platform-Team-Role-Guide
+Document includes:
+
+Team scope: EKS infrastructure, API Connect platform components, DataPower appliances
+When team is engaged (platform failures, infrastructure issues, cross-API impacts)
+Responsibilities during incidents:
+
+Infrastructure diagnostics and remediation
+Platform component troubleshooting
+Capacity and scaling decisions
+Coordinate with API Enablement for API-specific issues
+
+
+Escalation to AWS support or IBM support
+Tools and access requirements (AWS Console, Kubernetes, DataPower admin)
+Example scenarios (EKS node failure, API Connect manager outage, DataPower cluster failover)
+
+
+On-call rotation responsibilities
+Relationship to API Enablement team clarified
+
+Story Points: 5
+
+US-IRP-022: Define Post Mortem Action Item Process
+As a postmortem author,
+I want clear guidance on creating and tracking action items,
+So that incidents lead to concrete improvements.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Postmortem-Action-Item-Process
+Document includes:
+
+Characteristics of good action items (SMART: Specific, Measurable, Assigned, Realistic, Time-bound)
+Prioritization framework (impact vs effort matrix)
+How to assign owners and get commitment
+Where to track (Rally, Jira, GitHub issues)
+Follow-up cadence (weekly reviews, monthly reports)
+Escalation for overdue items
+When action items can be closed (definition of done)
+Metrics: completion rate, time-to-completion
+
+
+Integration with sprint planning
+Examples of well-written vs poorly-written action items
+
+Story Points: 5
+
+US-IRP-023: Define Post Mortem Process
+As an engineer,
+I want comprehensive postmortem process documentation,
+So that I know when and how to write effective postmortems.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Postmortem-Process
+Document includes:
+
+When postmortems are required (always SEV-1, usually SEV-2, optional SEV-3)
+Timeline: Draft within 5 business days, review within 10 days
+Postmortem template with sections:
+
+Executive summary
+What happened (timeline)
+Customer impact (quantified)
+Root cause analysis (five whys)
+What went well
+What went wrong
+Action items
+Lessons learned
+
+
+Who writes (usually Incident Commander or Operations Lead)
+Review meeting facilitation (blameless culture)
+Approval and publication process
+Where to publish (wiki, shared drive)
+
+
+Blameless culture principles emphasized
+Example postmortem included
+
+Story Points: 8
+
+US-IRP-024: Explore Teams Channel Integrations for Incident Response
+As an incident responder,
+I want automated Microsoft Teams integrations for incident management,
+So that incident information flows seamlessly into our collaboration platform.
+Acceptance Criteria:
+
+Research and document Teams integration options:
+
+Automatic channel creation for new incidents
+Alert notifications posted to Teams channels
+Status updates from incident tool → Teams
+Bot commands for incident actions (declare, update status, assign roles)
+Integration with PagerDuty, ServiceNow, or incident management tool
+
+
+Proof of concept for 2-3 integrations:
+
+Incident declaration creates Teams channel
+Dynatrace alerts post to dedicated Teams channel
+Splunk alerts post to Teams
+
+
+Document configuration requirements, permissions needed, limitations
+Cost analysis if any licensing needed
+Recommendations for which integrations to implement
+Decision documented in wiki
+
+Story Points: 8
+
+Total Story Points: 141
+Recommended PI Breakdown:
+
+PI 1 (Foundation): US-IRP-001, 002, 010, 018, 014, 008, 021, 004, 020, 019 (~50 points)
+PI 2 (Enhancement): US-IRP-009, 011, 012, 015, 016, 017, 023, 022, 005 (~50 points)
+PI 3 (Optimization): US-IRP-003, 006, 007, 013, 024 (~40 points)
+RetryCSshow me the best structure for these wiki pages. do not remake the stories. what groupings can we do? It doesn't make sense to make everything into individual wiki pages.EditIncident Response Wiki Structure
+Recommended Wiki Page Organization
+Instead of 24+ individual pages, consolidate related content into 7 comprehensive wiki pages with clear sections and navigation.
+
+Page 1: Incident Response Overview & Process
+Location: /wiki/Incident-Response-Overview
+Sections:
+
+Introduction & Philosophy
+
+Blameless culture
+User-centric focus
+Continuous improvement
+
+
+End-to-End Process Flow
+
+Visual diagram (Mermaid)
+Process phases overview
+
+
+Incident Severity Definitions (US-IRP-018)
+
+SEV-1, SEV-2, SEV-3 table
+Examples and decision tree
+
+
+Incident Detection & Alerting (US-IRP-011)
+
+Monitoring stack overview
+Alert sources and meanings
+When to declare an incident
+
+
+Incident Declaration Process (US-IRP-010)
+
+Step-by-step checklist
+Tool instructions
+Naming conventions
+
+
+Incident Resolution Criteria (US-IRP-014)
+
+Mitigated vs Resolved definitions
+Verification checklists
+
+
+Quick Reference
+
+Response time SLAs
+Critical tool links
+Emergency contacts
+
+
+
+Why this grouping? These are the core "what is incident response" fundamentals that everyone needs to understand. Natural reading flow from detection → declaration → resolution.
+
+Page 2: Incident Response Roles & Responsibilities
+Location: /wiki/Incident-Response-Roles
+Sections:
+
+Role Overview
+
+When roles are assigned
+Role interaction diagram
+
+
+Incident Commander (US-IRP-008)
+
+Responsibilities
+Decision-making authority
+Communication cadence
+Handoff procedures
+Templates and checklists
+
+
+Operations Lead
+
+Technical investigation duties
+Coordination with IC
+Tool access requirements
+
+
+Communications Lead (US-IRP-009)
+
+Stakeholder identification
+Communication templates
+Update frequency by severity
+Status page procedures
+
+
+Scribe (US-IRP-017)
+
+What to document
+Timeline format
+Handoff to postmortem
+
+
+API Enablement Team (US-IRP-004)
+
+When engaged
+Scope of responsibility
+Example scenarios
+
+
+Platform Team (US-IRP-021)
+
+Infrastructure/platform scope
+When engaged
+Escalation paths
+
+
+Cross-Team Coordination (US-IRP-005)
+
+Multi-team incident structure
+Communication patterns
+Service ownership matrix
+
+
+
+Why this grouping? All role-related information in one place. Engineers can quickly find "what do I do in this role?" without hunting through multiple pages.
+
+Page 3: Incident Investigation & Response
+Location: /wiki/Incident-Investigation-and-Response
+Sections:
+
+Investigation Methodology
+
+Four golden signals approach
+Systematic troubleshooting framework
+
+
+Tools & Techniques (US-IRP-015)
+
+Dynatrace: API Connect monitoring, distributed tracing
+Splunk: Log analysis, common queries
+MainView: DataPower middleware monitoring
+DPMON: DataPower appliance metrics
+AWS Console: EKS, infrastructure diagnostics
+
+
+Runbook Utilization (US-IRP-016)
+
+How to find and use runbooks
+Runbook template
+When to follow vs deviate
+Maintenance process
+
+
+Escalation Process (US-IRP-012)
+
+Escalation criteria
+Technical escalation paths
+Management escalation thresholds
+Contact directory/links
+
+
+Emergency Change Management (US-IRP-007)
+
+Emergency vs standard changes
+Approval authority by severity
+Rollback procedures
+Documentation requirements
+
+
+Common Investigation Scenarios
+
+High latency troubleshooting
+Error rate spikes
+Pod crashes
+DataPower transaction failures
+
+
+
+Why this grouping? All the "how to troubleshoot and fix" content together. Operations Leads can reference this entire page during active incidents.
+
+Page 4: Postmortem Process & Learning
+Location: /wiki/Postmortem-Process
+Sections:
+
+Postmortem Philosophy
+
+Blameless culture principles
+Learning vs blame
+
+
+When Postmortems Are Required (US-IRP-023)
+
+SEV-1: Always
+SEV-2: Usually
+SEV-3: Optional
+
+
+Postmortem Template & Process (US-IRP-023)
+
+Template with all sections
+Timeline for completion
+Who writes
+Review meeting facilitation
+
+
+Writing Effective Postmortems
+
+Five whys technique
+Avoiding blame language
+Focusing on systemic issues
+
+
+Action Item Process (US-IRP-022)
+
+SMART criteria
+Prioritization framework
+Tracking and follow-up
+Completion metrics
+
+
+Error Budget Reconciliation (US-IRP-006)
+
+How incidents impact error budget
+Calculation methodology
+Policy actions at different thresholds
+Review cadence
+
+
+Example Postmortems
+
+Real or anonymized examples
+
+
+
+Why this grouping? Complete postmortem lifecycle in one place: from "why we do this" through "how to track improvements."
+
+Page 5: On-Call Guide
+Location: /wiki/On-Call-Guide
+Sections:
+
+On-Call Philosophy
+
+Sustainable on-call practices
+Work-life balance
+
+
+On-Call Process & Expectations (US-IRP-020)
+
+Schedule and rotation
+Response time SLAs
+What to do when paged
+Escalation when unsure
+Shift handoff
+Compensation and time-off
+
+
+On-Call Onboarding (US-IRP-019)
+
+Complete checklist
+Prerequisites
+Access verification
+Shadow shift requirements
+Training modules
+Sign-off process
+
+
+First Day On-Call Checklist
+
+Pre-shift verification
+Tool access checks
+Contact list verification
+
+
+Common On-Call Scenarios
+
+Alert triage
+When to escalate
+Handling uncertainty
+
+
+Health & Wellness
+
+Fatigue management
+When to ask for help
+Mental health resources
+
+
+
+Why this grouping? Everything on-call engineers need in one bookmark-able page. New on-call can read top-to-bottom before their first shift.
+
+Page 6: Incident Metrics & Continuous Improvement
+Location: /wiki/Incident-Metrics-and-Improvement
+Sections:
+
+Key Metrics & KPIs (US-IRP-013)
+
+MTTD, MTTA, MTTR definitions
+Incident frequency
+Error budget consumption
+On-call load
+Postmortem completion rates
+Action item completion
+
+
+Dashboards & Reporting
+
+Where to view metrics
+Review cadence
+Target benchmarks
+
+
+Problem Dashboard (US-IRP-003)
+
+Splunk problem dashboard usage
+Real-time system health view
+How to interpret data
+
+
+Continuous Improvement Process
+
+Weekly incident reviews
+Monthly trend analysis
+Quarterly deep dives
+Annual retrospective
+
+
+Incident Pattern Analysis
+
+Identifying recurring issues
+Root cause trending
+Investment prioritization
+
+
+Process Improvement
+
+How to suggest changes
+Feedback mechanisms
+Process evolution history
+
+
+
+Why this grouping? All measurement and improvement content together. Leaders and SREs can reference this for data-driven decision making.
+
+Page 7: Tools, Integrations & Technical Reference
+Location: /wiki/Incident-Response-Tools-and-Integrations
+Sections:
+
+Tool Overview
+
+Complete tool inventory
+Access links and authentication
+
+
+Monitoring Stack
+
+Dynatrace: API Connect monitoring
+Splunk: Log aggregation
+MainView: DataPower middleware
+DPMON: DataPower appliances
+
+
+Incident Management Tools
+
+PagerDuty/ServiceNow/etc.
+How to declare incidents
+Integration points
+
+
+Communication Tools
+
+Slack/Teams channel conventions
+Incident bridges
+Status page
+
+
+Teams Channel Integrations (US-IRP-024)
+
+Available integrations
+Configuration guides
+Bot commands
+POC results and recommendations
+
+
+Access Management
+
+How to request access
+Permission levels
+VPN and remote access
+
+
+Tool Quick Reference Cards
+
+Common Splunk queries
+Dynatrace navigation paths
+DataPower CLI commands
+AWS Console shortcuts
+
+
+
+Why this grouping? Central reference for all tooling. Engineers can quickly find "how do I access X" or "what's the command for Y."
+
+Additional Supporting Elements
+Wiki Home Page Updates
+Add a prominent "Incident Response" section with:
+markdown## 🚨 Incident Response
+
+**New to on-call?** Start here: [On-Call Guide](/wiki/On-Call-Guide)
+
+**Quick Links:**
+- [Incident Response Overview](/wiki/Incident-Response-Overview) - Start here for the basics
+- [Incident Response Roles](/wiki/Incident-Response-Roles) - Role responsibilities
+- [Investigation & Response](/wiki/Incident-Investigation-and-Response) - Troubleshooting guide
+- [Postmortem Process](/wiki/Postmortem-Process) - Learning from incidents
+- [On-Call Guide](/wiki/On-Call-Guide) - Everything for on-call engineers
+- [Metrics & Improvement](/wiki/Incident-Metrics-and-Improvement) - Measuring effectiveness
+- [Tools & Integrations](/wiki/Incident-Response-Tools-and-Integrations) - Technical reference
+
+**Emergency Resources:**
+- [Severity Definitions](/wiki/Incident-Response-Overview#severity-definitions) - Is this SEV-1, 2, or 3?
+- [Declare an Incident](/wiki/Incident-Response-Overview#declaration) - Step-by-step
+- [Escalation Contacts](/wiki/Incident-Investigation-and-Response#escalation) - Who to call
+- [Problem Dashboard](https://splunk.hartford.com/problem-dashboard) - System health
+Navigation Sidebar
+📋 Incident Response
+  ├─ Overview & Process
+  ├─ Roles & Responsibilities  
+  ├─ Investigation & Response
+  ├─ Postmortem Process
+  ├─ On-Call Guide
+  ├─ Metrics & Improvement
+  └─ Tools & Integrations
+Cross-Page Linking Strategy
+Each page should have:
+
+Header: Breadcrumb navigation (Home > Incident Response > Current Page)
+Footer: "Related Pages" section with logical next steps
+Inline Links: Deep links to specific sections on other pages
+Table of Contents: Anchor links at top of each page
+
+
+Benefits of This Structure
+✅ Reduced Page Sprawl
+24 user stories → 7 comprehensive pages (70% reduction)
+✅ Logical Grouping
+Related content together = less hunting for information
+✅ Progressive Disclosure
+
+Page 1: Everyone reads this (overview)
+Page 2: Read when assigned a role
+Page 3: Reference during active incidents
+Page 4: Read after incidents
+Page 5: Read before going on-call
+Page 6: Leaders and improvement-focused
+Page 7: Technical reference as needed
+
+✅ Mobile-Friendly
+Fewer pages = easier navigation on phones during on-call
+✅ Maintainability
+Related sections updated together, version control simpler
+✅ Discoverability
+Clear hierarchy, obvious where to find information
+✅ Onboarding Path
+New engineers can follow: Page 1 → Page 2 → Page 5 → Page 3
+
+Implementation Approach
+Phase 1: Core Foundation (PI 1)
+Create these pages first:
+
+Incident Response Overview & Process (Page 1)
+Incident Response Roles (Page 2)
+On-Call Guide (Page 5)
+
+Phase 2: Operational Content (PI 2)
+Add these pages:
+4. Investigation & Response (Page 3)
+5. Postmortem Process (Page 4)
+Phase 3: Optimization (PI 3)
+Complete with:
+6. Metrics & Improvement (Page 6)
+7. Tools & Integrations (Page 7)
+Each user story contributes content to its designated page rather than creating standalone pages.
