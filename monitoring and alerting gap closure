@@ -1,0 +1,620 @@
+US-MON-001: Create Alert Fatigue Reduction Plan
+As an on-call engineer,
+I want a concrete plan to reduce alert fatigue,
+So that I can focus on actionable alerts that indicate real customer impact.
+Acceptance Criteria:
+
+Current alert fatigue quantified:
+
+Total alerts per on-call shift (last 90 days)
+False positive rate by alert
+Alerts requiring no action
+Time spent on alert triage vs mitigation
+
+
+Alert inventory categorized:
+
+Delete: No value, never actionable
+Aggregate: Combine related alerts
+Convert to dashboard: Informational only
+Tune thresholds: Too sensitive
+Add runbooks: Missing procedures
+
+
+Reduction targets defined (e.g., 50% reduction in 3 months, 80% actionable rate)
+Prioritized implementation roadmap
+Metrics to track improvement (alerts per shift, actionable percentage)
+
+Story Points: 8
+
+US-MON-002: Create Alert for Postgres Storage Availability in IBM APIC
+As an SRE,
+I want alerts when PostgreSQL storage for API Connect approaches capacity limits,
+So that we can proactively address storage issues before they cause outages.
+Acceptance Criteria:
+
+Alert created in Dynatrace or Splunk for PostgreSQL storage metrics
+Thresholds defined based on growth analysis:
+
+Warning: 75% capacity (ticket created)
+Critical: 85% capacity (page on-call)
+
+
+Alert covers all API Connect PostgreSQL instances (manager, analytics, portal databases)
+Alert includes context:
+
+Current usage percentage
+Growth trend
+Estimated time to full
+Runbook link for storage expansion
+
+
+Tested in non-prod environment
+Runbook created for remediation (expand volume, clean old data)
+Alert routed to Platform team
+
+Story Points: 5
+
+US-MON-003: Create AWS Config Rule Implementation Plan
+As a platform engineer,
+I want a plan for implementing AWS Config rules for our EKS and API Connect infrastructure,
+So that we can continuously monitor compliance and detect configuration drift.
+Acceptance Criteria:
+
+Research AWS Config rules relevant to our stack:
+
+EKS security (security groups, encryption, public access)
+EC2 instances (approved AMIs, required tags)
+IAM policies (least privilege, MFA enforcement)
+S3 buckets (encryption, public access blocked)
+RDS/PostgreSQL (encryption, backup enabled)
+VPC (flow logs enabled, appropriate CIDR)
+
+
+Prioritized list of rules to implement (high/medium/low priority)
+Cost analysis for AWS Config service
+Implementation phases defined (start with critical security rules)
+Remediation approach (manual vs automated)
+Integration plan with alerting (Config rule violations → Splunk/PagerDuty)
+Documentation requirements
+Timeline and resource allocation
+
+Story Points: 8
+
+US-MON-004: Create Documentation for Legacy DataPower Observability Stack
+As an engineer supporting DataPower,
+I want comprehensive documentation of the MainView and DPMON monitoring stack,
+So that I can effectively troubleshoot DataPower issues.
+Acceptance Criteria:
+
+Wiki page created: /wiki/DataPower-Observability-Stack
+Documentation includes:
+
+MainView Middleware Monitor:
+
+What it monitors (transaction flows, service health)
+How to access (URL, authentication)
+Key dashboards and their purposes
+Alert configuration
+Common troubleshooting scenarios
+
+
+DPMON:
+
+What it monitors (appliance metrics, performance)
+How to access
+Key metrics explained (CPU, memory, transaction rate)
+Dashboard navigation
+How to export data/reports
+
+
+Integration points with Splunk (log forwarding)
+Comparison with modern stack (Dynatrace capabilities)
+Known limitations and gaps
+
+
+Screenshots of key dashboards
+Common queries/filters documented
+Escalation to vendor support procedures
+
+Story Points: 5
+
+US-MON-005: Create Documentation for Log Coverage
+As an incident responder,
+I want documentation of what logs are collected and where,
+So that I know which logs to search during troubleshooting.
+Acceptance Criteria:
+
+Wiki page created: /wiki/Log-Coverage-and-Searchability
+Log source inventory documented:
+
+API Connect on EKS: Gateway logs, manager logs, portal logs, analytics logs
+Kubernetes/EKS: Control plane logs, kubelet logs, pod logs
+DataPower: System logs, transaction logs, error logs
+Infrastructure: Load balancer logs, VPC flow logs, CloudTrail
+
+
+For each source, document:
+
+What information is logged
+Where logs are sent (Splunk index)
+Retention period
+Log parsing/field extraction status
+Sample search queries
+Known gaps or missing logs
+
+
+Common troubleshooting scenarios with log queries:
+
+Find all errors for specific API
+Track request through distributed system (correlation ID)
+Find authentication failures
+Identify slow transactions
+
+
+Sensitive data masking verification
+
+Story Points: 5
+
+US-MON-006: Create SLO Dashboard in Dynatrace
+As a product owner,
+I want a dashboard showing SLO compliance and error budget status,
+So that I can make informed decisions about feature velocity vs reliability.
+Acceptance Criteria:
+
+Dynatrace dashboard created showing:
+
+SLO compliance percentage for each critical service (30-day window)
+Error budget remaining (visual indicator: green/yellow/red)
+Error budget burn rate (trend over time)
+Recent SLO violations with details
+Projected error budget exhaustion date
+Time-series graph of SLO compliance
+
+
+Dashboard includes SLOs for:
+
+API availability (defined in other stories)
+API latency (p95, p99)
+Error rates
+EKS node health
+Container resource metrics
+
+
+Accessible via bookmarkable URL
+Auto-refresh enabled
+Exportable/shareable for leadership reviews
+Mobile-responsive layout
+
+Story Points: 8
+
+US-MON-007: Create Splunk Dashboard to Track ClickOps
+As an SRE lead,
+I want a Splunk dashboard tracking manual changes (ClickOps) in our infrastructure,
+So that I can identify automation opportunities and reduce operational toil.
+Acceptance Criteria:
+
+Splunk dashboard created tracking manual operations:
+
+AWS Console login events (CloudTrail)
+Manual configuration changes (API Connect, DataPower)
+Manual deployments or restarts
+Emergency access usage
+Manual scaling actions
+
+
+Dashboard shows:
+
+Frequency of manual operations by type
+Who performed manual actions
+Time spent on manual tasks (estimated)
+Trend over time (are we reducing ClickOps?)
+Top 10 most frequent manual operations
+
+
+Filters by: Date range, user, service, environment
+Comparison with automated operations
+Automation candidates identified (high-frequency manual tasks)
+Dashboard used in monthly operational reviews
+
+Story Points: 5
+
+US-MON-008: Define SLOs for Container CPU Usage
+As an SRE,
+I want SLOs defined for container CPU usage,
+So that we have clear targets for resource utilization and can alert on saturation.
+Acceptance Criteria:
+
+SLO defined: "XX% of API Connect containers maintain CPU usage below YY% over a 30-day period"
+Threshold determined through analysis:
+
+Review 90 days of historical CPU usage
+Calculate percentiles (p50, p95, p99)
+Identify normal operating range
+Set threshold with headroom (e.g., 80% CPU sustained)
+
+
+SLO applies to:
+
+API Connect gateway pods
+API Connect manager pods
+API Connect portal pods
+API Connect analytics pods
+
+
+Separate SLOs for different pod types if needed (gateway vs manager)
+Error budget calculated (SLO = 95% → 5% error budget)
+Documented in wiki: /wiki/Service-Level-Objectives
+Dynatrace configured to track SLO compliance
+Alert created for SLO violations
+
+Story Points: 5
+
+US-MON-009: Define SLOs for Container Disk Usage
+As an SRE,
+I want SLOs defined for container disk usage,
+So that we prevent disk space exhaustion that could cause pod failures.
+Acceptance Criteria:
+
+SLO defined: "XX% of API Connect containers maintain disk usage below YY% over a 30-day period"
+Threshold determined through analysis:
+
+Review historical disk usage patterns
+Identify growth trends
+Set threshold with safety margin (e.g., 75% for warning, 85% for critical)
+
+
+SLO covers:
+
+Ephemeral storage in pods
+Persistent volumes (databases, file storage)
+Log volume growth
+
+
+Different thresholds for different workload types if needed
+Error budget calculated
+Documented in wiki
+Dynatrace or Kubernetes metrics configured to track
+Alerts created for approaching thresholds
+Runbook created for disk cleanup/expansion
+
+Story Points: 5
+
+US-MON-010: Define SLOs for Container Memory Usage
+As an SRE,
+I want SLOs defined for container memory usage,
+So that we can detect memory leaks and prevent OOM (Out of Memory) kills.
+Acceptance Criteria:
+
+SLO defined: "XX% of API Connect containers maintain memory usage below YY% of limits over a 30-day period"
+Threshold based on:
+
+Historical memory usage analysis
+Memory limit configuration per pod type
+Identification of memory leak patterns
+Recommended threshold (e.g., 85% of limit)
+
+
+SLO applies to all API Connect components
+Memory leak detection criteria defined (sustained growth over time)
+Error budget calculated
+Documented in wiki
+Dynatrace tracking configured
+Alerts for:
+
+Sustained high memory usage
+Rapid memory growth (potential leak)
+Approaching memory limits
+
+
+Runbook for memory investigation and pod restart
+
+Story Points: 5
+
+US-MON-011: Define SLOs for Critical Service Failed Requests
+As a product owner,
+I want SLOs defined for failed request rates,
+So that we have clear targets for API reliability.
+Acceptance Criteria:
+
+SLO defined for each critical API/service: "XX% of requests succeed (HTTP 2xx/3xx) over a 30-day period"
+Critical services identified and prioritized:
+
+External customer-facing APIs (highest priority)
+Internal critical APIs
+DataPower gateway services
+
+
+SLO targets set based on:
+
+Historical error rates
+Business requirements
+Industry benchmarks
+Example: 99.9% success rate (0.1% error budget)
+
+
+Success criteria defined (what HTTP status codes = success)
+Error budget calculated per service
+Excluded errors documented (client errors like 401, 404 may not count against SLO)
+Documented in wiki with rationale
+Implemented in Dynatrace SLO tracking
+Alerts configured for error budget burn rate
+
+Story Points: 8
+
+US-MON-012: Define SLOs for Critical Service Latency
+As a product owner,
+I want SLOs defined for API response time,
+So that we have clear performance targets that reflect user experience.
+Acceptance Criteria:
+
+SLO defined for each critical API: "XX% of requests complete within YY milliseconds over a 30-day period"
+Latency targets set based on:
+
+Historical p95/p99 latency analysis
+User experience requirements
+Business impact of slow responses
+Example: "95% of requests complete within 500ms, 99% within 2s"
+
+
+Separate SLOs for different API types:
+
+Synchronous APIs (lower latency required)
+Batch/async operations (higher latency acceptable)
+External vs internal APIs
+
+
+Latency measured at gateway (API Connect entry point)
+Error budget calculated
+Documented in wiki
+Dynatrace service-level tracking configured
+Alerts for latency SLO violations
+Dashboard showing current vs target latency
+
+Story Points: 8
+
+US-MON-013: Define SLOs for Critical Service Uptime
+As a product owner,
+I want SLOs defined for service availability,
+So that we have clear uptime commitments.
+Acceptance Criteria:
+
+SLO defined: "Services are available XX% of the time over a 30-day period"
+Availability calculation method defined:
+
+Based on successful health checks
+Or based on request success rate (combining with failed requests SLO)
+Measurement frequency (every 60 seconds)
+
+
+Availability targets set per service:
+
+Critical customer-facing: 99.9% (43 minutes downtime/month)
+Internal services: 99.5% or appropriate level
+
+
+Planned maintenance windows excluded from calculation
+Error budget calculated (99.9% = 0.1% = 43 min/month)
+Documented in wiki
+Dynatrace synthetic monitoring for availability checks
+Alerts for availability dropping below SLO
+Integration with incident severity (complete unavailability = SEV-1)
+
+Story Points: 5
+
+US-MON-014: Define SLOs for EKS Node Health
+As a platform engineer,
+I want SLOs defined for EKS node health,
+So that we maintain a healthy Kubernetes infrastructure.
+Acceptance Criteria:
+
+SLO defined: "XX% of EKS nodes remain in Ready state over a 30-day period"
+Node health metrics identified:
+
+Node Ready status
+Node CPU/memory pressure
+Disk pressure
+Network availability
+
+
+Target SLO set (e.g., 99.5% of nodes healthy at any time)
+Acceptable node failure scenarios defined:
+
+Rolling upgrades (temporary node drain)
+Autoscaling events
+Spot instance terminations
+
+
+Error budget calculated
+Documented in wiki
+Kubernetes metrics exported to Dynatrace
+Alerts for:
+
+Multiple nodes unhealthy simultaneously
+Node stuck in NotReady state
+Cluster capacity issues
+
+
+Runbook for node troubleshooting
+
+Story Points: 5
+
+US-MON-015: Implement AWS Config Rules
+As a platform engineer,
+I want AWS Config rules deployed to our environments,
+So that we continuously monitor compliance and configuration drift.
+Acceptance Criteria:
+
+AWS Config enabled in all relevant accounts/regions
+Priority rules implemented (from US-MON-003 plan):
+
+Security: Encrypted EBS volumes, S3 bucket public access blocked, IAM password policy, MFA enabled for root
+EKS: Security groups restrict access, cluster endpoint not public, secrets encrypted
+Compliance: Required tags present, approved AMIs only, backup enabled for databases
+
+
+Config rules deployed via Infrastructure as Code (Terraform/CloudFormation)
+Compliance dashboard accessible in AWS Console
+Non-compliant resources identified and documented
+Remediation plan for existing violations
+Integration with alerting:
+
+Critical violations → PagerDuty
+Non-critical violations → Slack/Teams
+
+
+Documentation updated with Config rule catalog
+
+Story Points: 13
+
+US-MON-016: Implement Synthetic Monitoring in Prod
+As an SRE,
+I want synthetic monitoring for critical user journeys in production,
+So that we can detect issues before customers report them.
+Acceptance Criteria:
+
+Synthetic monitors created in Dynatrace for:
+
+Critical API endpoints (health check, key business APIs)
+Authentication flows
+End-to-end user journeys identified in US-MON-017
+
+
+Monitors execute from multiple geographic locations (if applicable)
+Execution frequency: Every 5-15 minutes
+Monitors check:
+
+Response time (latency)
+Success/failure (HTTP status)
+Response content validation
+Certificate validity
+
+
+Baseline performance established
+Alerts configured for:
+
+Monitor failures (2 consecutive failures)
+Latency exceeding threshold
+Availability dropping below SLO
+
+
+Synthetic monitoring results visible in SLO dashboard
+Runbooks linked to synthetic monitor alerts
+Non-prod environments also monitored (different alert routing)
+
+Story Points: 13
+
+US-MON-017: Perform Critical User Journey Path Mapping
+As an SRE,
+I want documented critical user journeys through our systems,
+So that we can ensure complete monitoring coverage at every step.
+Acceptance Criteria:
+
+Top 10 critical user journeys identified and prioritized:
+
+Example: "External partner retrieves product catalog via API"
+Example: "Internal app submits transaction through API Connect to DataPower backend"
+
+
+For each journey, document:
+
+Step-by-step flow through components
+Services/systems involved (API Connect gateway → DataPower → backend)
+Expected latency at each hop
+Failure modes and impact
+Current monitoring at each step
+Gaps in monitoring or observability
+
+
+Architecture diagrams created showing data flow
+Dependencies and integration points mapped
+SLO requirements per journey
+Monitoring gaps prioritized for closure
+Synthetic monitoring candidates identified
+Distributed tracing requirements defined
+Document stored in wiki with visual diagrams
+
+Story Points: 13
+
+US-MON-018: Review Existing Dynatrace Alerts & Thresholds
+As an SRE,
+I want a comprehensive review of all Dynatrace alerts,
+So that I can identify which alerts need tuning, removal, or enhancement.
+Acceptance Criteria:
+
+Complete inventory of Dynatrace alerts:
+
+Alert name and description
+Trigger conditions and thresholds
+Severity level
+Notification routing
+Last triggered date
+Frequency (last 90 days)
+
+
+For each alert, assess:
+
+Actionability: Does it require human intervention?
+Accuracy: False positive rate
+Relevance: Still applicable to current architecture?
+SLI mapping: Does it indicate SLI violation?
+Runbook: Does remediation procedure exist?
+
+
+Classification:
+
+✅ Good: Keep as-is
+🔧 Tune: Adjust thresholds or conditions
+📊 Dashboard: Convert to metric, don't alert
+❌ Remove: No longer relevant or too noisy
+📚 Document: Needs runbook
+
+
+Recommendations documented with rationale
+Prioritized action plan for rightsizing (US-MON-019)
+
+Story Points: 8
+
+US-MON-019: Rightsize Dynatrace Alerts After Review
+As an SRE,
+I want to implement alert improvements identified in the review,
+So that alerts are accurate, actionable, and SLI-focused.
+Acceptance Criteria:
+
+Implement changes from US-MON-018 review:
+
+Remove alerts: Delete low-value or redundant alerts
+Tune thresholds: Adjust based on statistical analysis or SLO targets
+Update severity: Correct over/under-classified alerts
+Add context: Enrich alerts with runbook links, dashboard links
+Aggregate: Combine related alerts into single notification
+Convert to metrics: Remove alerting, keep as dashboard metric
+
+
+New alert configuration uses:
+
+SLI-based thresholds where applicable
+Multi-window, multi-burn-rate for error budget alerts
+Statistical baselines (anomaly detection)
+
+
+All retained alerts have:
+
+Clear description of what it monitors
+Runbook link (create if missing)
+Appropriate routing (Platform vs API Enablement team)
+
+
+Changes tested in non-prod first
+Shadow alerting for new thresholds (log but don't page initially)
+Metrics tracked: Alert volume reduction, false positive rate improvement
+Documentation updated
+
+Story Points: 13
+
+Total Story Points: 141
+Recommended PI Breakdown:
+
+PI 1 (Foundation): US-MON-008, 009, 010, 011, 012, 013, 014, 017, 004, 005 (~60 points) - Define SLOs and baseline understanding
+PI 2 (Implementation): US-MON-006, 016, 018, 019, 002, 007 (~50 points) - Implement monitoring improvements
+PI 3 (Optimization): US-MON-001, 003, 015 (~30 points) - Advanced capabilities and compliance
