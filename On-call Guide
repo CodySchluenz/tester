@@ -1,0 +1,197 @@
+# On-Call Guide
+
+**Last Updated:** January 2025 | **Owner:** SRE Team
+
+---
+
+## Table of Contents
+- [On-Call Philosophy](#on-call-philosophy)
+- [Process & Expectations](#process--expectations)
+- [Onboarding Checklist](#onboarding-checklist)
+
+---
+
+## On-Call Philosophy
+
+### Sustainable Practices
+
+We run weekly rotations with primary and backup on-call from Monday 9 AM to Monday 9 AM ET. You'll have at least 2 weeks between rotations. If you respond to incidents after hours, flex your schedule the next day - no formal comp time policy, but the team supports reasonable adjustments. Late night incident? Start late the next morning. Communicate with your manager if you need recovery time after extended incidents.
+
+On-call is a team responsibility. Your backup exists for a reason - use them. If you're sick, unavailable, or impaired (alcohol, medication, exhaustion), notify backup immediately and don't respond. Schedule swaps are normal. If you're overwhelmed during your shift, escalate to backup or manager.
+
+### Team Support & Continuous Improvement
+
+Asking for help is expected, not weakness. Escalating incidents is part of the process. No blame for paging others - it's their job. We have psychological safety here: learning from mistakes is how we improve.
+
+We actively reduce on-call burden through alert tuning, automation, runbook improvements, and tracking action items from postmortems. Report painful experiences, suggest improvements, and contribute to documentation. Your feedback matters.
+
+---
+
+## Process & Expectations
+
+### Schedule & Response Times
+
+**Rotation details:**
+- **Duration:** Weekly (Monday 9 AM ET → Monday 9 AM ET)
+- **Roles:** Primary on-call + Backup on-call
+- **Teams:** Platform and API Enablement maintain separate rotations
+- **Schedule:** [ServiceNow On-Call Calendar](https://hartford.service-now.com/oncall)
+- **Break period:** Minimum 2 weeks between rotations
+- **Notifications:** Enable ServiceNow email notifications during your on-call week, disable when off
+
+**Response SLAs:**
+- **SEV-1:** Acknowledge 15 min, begin response immediately
+- **SEV-2:** Acknowledge 30 min, begin response within 1 hour  
+- **SEV-3:** Next business day
+
+### When Notified
+
+You'll receive a ServiceNow email notification when an incident is created. Most incidents come from: Dynatrace detects problem → Splunk processes alert → ServiceNow incident created. Occasionally you'll be pulled into an incident opened by another team if there are downstream impacts.
+
+**1. Acknowledge incident** (within SLA)
+- Open ServiceNow incident from email link
+- Acknowledge incident
+
+**2. Review incident details**
+- Check incident description and affected services
+- Review dashboards: [Problem Dashboard](https://splunk.hartford.com/problem-dashboard), [Dynatrace](https://dynatrace.hartford.com/apic), [Splunk](https://splunk.hartford.com/)
+- Verify severity is correct - adjust if needed. Reference: [Severity Definitions](/wiki/Incident-Response-Overview#severity-definitions)
+
+**3. Check if alert has a runbook**
+- Search [Runbook Library](/wiki/Runbooks) by service or symptom
+- If runbook exists, follow it
+- If no runbook, proceed with investigation
+
+**4. Create Teams channel** (for SEV-1 or SEV-2)
+- Create channel: `#incident-YYYY-MM-DD-brief-description`
+- Pin ServiceNow incident link and relevant dashboard links
+- Reference: [Incident Declaration Process](/wiki/Incident-Response-Overview#declaration-process)
+
+**5. Investigate**
+- Join incident Teams channel (or create if needed)
+- Check Dynatrace service flow for slow components
+- Search Splunk for errors with correlation IDs
+- Review recent changes (deployments, configs)
+- Check infrastructure metrics (pods, nodes, resources)
+
+**6. Escalate if needed**
+- Root cause unclear after 15-30 min? Escalate.
+- Issue outside your expertise? Escalate.
+- SEV-1 incident? Notify backup immediately.
+- Need second opinion? Ask.
+- **How:** Contact backup on-call via Teams `@backup-oncall need help with [issue]` or update ServiceNow incident requesting additional responders
+- Reference: [Escalation Procedures](/wiki/Incident-Response-Overview#escalation)
+
+**7. Document your work**
+- Update ServiceNow work notes throughout investigation
+- Document actions taken, findings, and results
+- See detailed guide with screenshots: [ServiceNow Incident Documentation](/wiki/ServiceNow-Incident-Documentation)
+
+**Remember:** Escalation is expected and encouraged. Don't struggle alone.
+
+### After-Hours & Handoffs
+
+SEV-1 and SEV-2 require response after-hours. SEV-3 can wait. If you respond at 2 AM, start at 11 AM next day. Extended overnight incident? Take rest of day. Use judgment and coordinate with your manager.
+
+Monday 9 AM handoff should be synchronous (call or Teams meeting). Walk through the week: ongoing issues, weird behavior, new runbooks, upcoming events. Post summary in #sre-team with links to incidents and any follow-up needed.
+
+### Shift Coverage
+
+For planned absences (PTO, travel), arrange swaps 1-2 weeks ahead. For unplanned (sick, emergency), contact backup immediately and notify manager. If you become unavailable mid-incident, explicitly hand off to backup. Always update ServiceNow schedule - don't rely on verbal agreements.
+
+---
+
+## Onboarding Checklist
+
+Complete this 2-4 weeks before your first solo shift.
+
+### Prerequisites
+
+**Training and documentation:**
+- [ ] Read [Incident Response Overview](/wiki/Incident-Response-Overview)
+- [ ] Read [Incident Response Roles](/wiki/Incident-Response-Roles)
+- [ ] Read this On-Call Guide
+- [ ] Complete Hartford incident response training on SharePoint
+
+**SharePoint training materials:**
+- [ ] "Incident Response 101" video
+- [ ] "API Connect Architecture Deep Dive" document
+- [ ] "DataPower Operations Guide" document
+- [ ] "On-Call Procedures" document
+
+**System knowledge:**
+- [ ] Understand API Connect components (gateway, manager, portal, analytics)
+- [ ] Understand DataPower architecture and HA setup
+- [ ] Know service ownership boundaries (Platform vs API Enablement)
+
+### Access Verification
+
+Verify access to all monitoring, infrastructure, and incident management tools. Test everything - don't wait until you're on-call to discover access issues.
+
+**Monitoring tools:**
+- [ ] Dynatrace - Can view API Connect services and service flow
+- [ ] Splunk - Can search logs and view dashboards
+- [ ] MainView Monitor - Can view DataPower transactions
+- [ ] DPMON - Can view appliance metrics
+
+**Infrastructure:**
+- [ ] AWS Console - Access to EKS, RDS, CloudWatch
+- [ ] Kubernetes CLI (`kubectl`) - Configured for production clusters
+- [ ] API Connect Management Console - Can view gateway status
+- [ ] DataPower Admin Console - Read access minimum
+
+**Incident management:**
+- [ ] ServiceNow - Can view and acknowledge incidents
+- [ ] ServiceNow on-call notifications - Know how to enable/disable email notifications
+- [ ] Microsoft Teams - Access to #sre-team, #platform-team, can create incident channels
+- [ ] VPN - Configured and tested for remote access
+
+### Training & Practice
+
+Complete these training modules: monitoring tools overview, ServiceNow incident management, API Connect platform training, DataPower operations basics, and AWS EKS fundamentals.
+
+**Runbook familiarity:**
+- [ ] Read top 10 most frequent runbooks in [Runbook Library](/wiki/Runbooks)
+- [ ] Practice at least 3 runbooks in non-prod (restart pods, rollback, scale)
+
+**Shadow shifts:**
+- [ ] Shadow full on-call shift (7 days) with experienced engineer
+- [ ] Observe 2-3 incidents as shadow - participate but let experienced engineer lead
+- [ ] Ask questions, take notes, review incidents afterward with mentor
+
+Learn during shadowing: how to triage alerts, use monitoring tools under pressure, execute runbooks, communicate during incidents, and when to escalate vs continue investigating.
+
+**Practice exercises:**
+- [ ] Participate in game day exercise (simulated incident)
+- [ ] Walk through common scenarios: high API latency, pod CrashLoopBackOff, DB connection pool issues, DataPower failover, deployment rollback
+- [ ] Practice creating incident Teams channels and updating ServiceNow
+
+### Knowledge Validation
+
+Before your first shift, verify you can: explain SEV-1/2/3 with examples, navigate to Problem Dashboard and explain what it shows, find API Connect gateway health in Dynatrace, search Splunk logs for API errors, explain when to escalate vs continue investigating, describe IC/Ops Lead/Comms Lead roles, and know how to enable ServiceNow on-call notifications.
+
+### Sign-Off
+
+**Final approval requirements:**
+- [ ] All checklist items complete
+- [ ] All access verified and tested
+- [ ] Shadow shifts and practice exercises complete
+- [ ] Final review meeting with experienced on-call engineer
+- [ ] **Manager sign-off** (required before first solo shift)
+
+Your first shift should be scheduled during a normal week (avoid holidays or known major deployments). Backup on-call should know you're new and be ready to help.
+
+---
+
+## Quick Links
+
+**Essential:** [Incident Response Overview](/wiki/Incident-Response-Overview), [Incident Response Roles](/wiki/Incident-Response-Roles), [Runbooks](/wiki/Runbooks), [Observability Stack](/wiki/Observability-Stack)
+
+**Tools:** [ServiceNow Incidents](https://hartford.service-now.com/incidents), [On-Call Schedule](https://hartford.service-now.com/oncall), [Problem Dashboard](https://splunk.hartford.com/problem-dashboard), [Dynatrace](https://dynatrace.hartford.com/apic), [Splunk](https://splunk.hartford.com/)
+
+**Support:** #sre-team on Teams, your manager, backup on-call via ServiceNow
+
+---
+
+**Location:** `github.com/the-hartford/cto_esb_apic_wiki/wiki/On-Call-Guide`  
+**Maintained by:** SRE Team | **Review:** Quarterly
