@@ -1,0 +1,36 @@
+flowchart TD
+    Start([Start Process]) --> CheckArtifact["🔍 Check Artifact Status<br/>Check Artifact Status (v. 45)"]
+    
+    CheckArtifact --> Extract["📦 Extract .zip<br/>Unzip (v. 94)"]
+    
+    Extract --> PublishStart["📝 Publish Start Time<br/>Publish Start Time (v. 45)"]
+    Extract --> GitHubAuth["🔐 Authenticate to GitHub<br/>GitHub Authentication (v. NEW)"]
+    
+    GitHubAuth --> Linting["✅ Run Linting<br/>PowerShell Linting Check (v. NEW)"]
+    
+    Linting -->|Lint Pass| PowerShell["⚙️ Run PowerShell Script<br/>Run PowerShell Script (v. 9)"]
+    Linting -->|Lint Fail| SetFailure["❌ Set Status: Failure"]
+    
+    PublishStart --> SetFailure
+    PowerShell --> SetSuccess["✅ Set Status: Success"]
+    
+    SetFailure --> PublishEnd["📝 Publish End Time<br/>Publish End Time (v. 45)"]
+    SetSuccess --> PublishEnd
+    
+    PublishEnd --> DeleteFiles["🗑️ Delete Files and Directories<br/>Delete Files and Directories (v. 94)"]
+    
+    DeleteFiles --> Finish([End Process])
+    
+    %% Styling
+    style CheckArtifact fill:#6b2c91,color:#fff,stroke:#4a1a5c,stroke-width:2px
+    style Extract fill:#6b2c91,color:#fff,stroke:#4a1a5c,stroke-width:2px
+    style PublishStart fill:#6b2c91,color:#fff,stroke:#4a1a5c,stroke-width:2px
+    style GitHubAuth fill:#f97316,color:#fff,stroke:#c2410c,stroke-width:3px
+    style Linting fill:#8b5cf6,color:#fff,stroke:#6d28d9,stroke-width:3px
+    style PowerShell fill:#4a90e2,color:#fff,stroke:#2e5c8a,stroke-width:4px
+    style SetFailure fill:#c93838,color:#fff,stroke:#8a1a1a,stroke-width:2px
+    style SetSuccess fill:#2ecc71,color:#fff,stroke:#1a8a4a,stroke-width:2px
+    style PublishEnd fill:#6b2c91,color:#fff,stroke:#4a1a5c,stroke-width:2px
+    style DeleteFiles fill:#6b2c91,color:#fff,stroke:#4a1a5c,stroke-width:2px
+    style Start fill:#34495e,color:#fff,stroke:#2c3e50,stroke-width:2px
+    style Finish fill:#34495e,color:#fff,stroke:#2c3e50,stroke-width:2px
