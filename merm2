@@ -1,0 +1,28 @@
+flowchart TD
+    Start([Start]) --> CheckArtifact["🔍 Check Artifact Status<br/>Check Artifact Status (v. 45)"]
+    
+    CheckArtifact --> Extract["📦 Extract .zip<br/>Unzip (v. 94)"]
+    
+    Extract --> PublishStart["📝 Publish Start Time<br/>Publish Start Time (v. 45)"]
+    Extract --> PowerShell["⚙️ Run PowerShell Script<br/>Run PowerShell Script (v. 9)"]
+    
+    PublishStart --> SetFailure["❌ Set Status: Failure"]
+    PowerShell --> SetSuccess["✅ Set Status: Success"]
+    
+    SetFailure --> PublishEnd["📝 Publish End Time<br/>Publish End Time (v. 45)"]
+    SetSuccess --> PublishEnd
+    
+    PublishEnd --> DeleteFiles["🗑️ Delete Files and Directories<br/>Delete Files and Directories (v. 94)"]
+    
+    DeleteFiles --> Finish([Finish])
+    
+    style CheckArtifact fill:#6b2c91,color:#fff
+    style Extract fill:#6b2c91,color:#fff
+    style PublishStart fill:#6b2c91,color:#fff
+    style PowerShell fill:#4a90e2,color:#fff,stroke:#4a90e2,stroke-width:3px
+    style SetFailure fill:#6b2c91,color:#fff
+    style SetSuccess fill:#6b2c91,color:#fff
+    style PublishEnd fill:#6b2c91,color:#fff
+    style DeleteFiles fill:#6b2c91,color:#fff
+    style Start fill:#666,color:#fff
+    style Finish fill:#666,color:#fff
