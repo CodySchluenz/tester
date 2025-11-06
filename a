@@ -1,0 +1,95 @@
+flowchart TB
+    subgraph Before["BEFORE: Single Component Template (Current State)"]
+        direction TB
+        
+        subgraph CT1["Component Template: APIConnect"]
+            direction TB
+            CT1Team["👥 Team: APIC<br/>(800 app teams + your team)"]
+            
+            subgraph CT1Procs["Processes"]
+                P1["✅ Publish<br/>(Everyone should use this)"]
+                P2["⚠️ ZZ DONOTUSE API CONNECT TEAM ONLY<br/>(Your team only - but everyone sees it)"]
+                P3["⚠️ ZZ DONOTUSE Publish Test<br/>(Your team only - but everyone sees it)"]
+                P4["⚠️ ZZ DONOTUSE TEST:V10<br/>(Your team only - but everyone sees it)"]
+            end
+        end
+        
+        subgraph AppTeamView1["👁️ What App Teams See"]
+            direction TB
+            ATV1["Component: APIConnect<br/>━━━━━━━━━━━━━━━━<br/>Process: Publish ✓<br/>Process: ZZ DONOTUSE... ❌<br/>Process: ZZ DONOTUSE... ❌<br/>Process: ZZ DONOTUSE... ❌<br/><br/>😕 Confusing! Which one to use?<br/>❓ Why can't I run these?<br/>📧 Support tickets generated"]
+        end
+        
+        subgraph YourTeamView1["👁️ What Your Team Sees"]
+            direction TB
+            YTV1["Component: APIConnect<br/>━━━━━━━━━━━━━━━━<br/>Process: Publish ✓<br/>Process: ZZ DONOTUSE... ✓<br/>Process: ZZ DONOTUSE... ✓<br/>Process: ZZ DONOTUSE... ✓<br/><br/>✓ Can use all processes<br/>⚠️ But cluttered with public process"]
+        end
+        
+        CT1Team --> CT1Procs
+        CT1Procs --> AppTeamView1
+        CT1Procs --> YourTeamView1
+    end
+    
+    subgraph After["AFTER: Dual Component Template (Proposed Architecture)"]
+        direction TB
+        
+        subgraph CT2["Component Template: APIConnect-Public"]
+            direction TB
+            CT2Team["👥 Team: APIC<br/>(800 app teams)"]
+            
+            subgraph CT2Procs["Processes"]
+                P5["✅ Publish<br/>(Production deployment)"]
+            end
+        end
+        
+        subgraph CT3["Component Template: APIConnect-Internal"]
+            direction TB
+            CT3Team["👥 Team: APIC-Internal-Team<br/>(Your core team only)"]
+            
+            subgraph CT3Procs["Processes"]
+                P6["🧪 ZZ DONOTUSE API CONNECT TEAM ONLY<br/>(Internal testing)"]
+                P7["🧪 ZZ DONOTUSE Publish Test<br/>(Feature testing)"]
+                P8["🧪 ZZ DONOTUSE TEST:V10<br/>(V10 migration testing)"]
+            end
+        end
+        
+        subgraph AppTeamView2["👁️ What App Teams See"]
+            direction TB
+            ATV2["Component: APIConnect-Public<br/>━━━━━━━━━━━━━━━━<br/>Process: Publish ✓<br/><br/>😊 Clean! Simple! Clear!<br/>✓ One obvious choice<br/>✓ No confusion"]
+            ATV2b["<br/>Component: APIConnect-Internal<br/>━━━━━━━━━━━━━━━━<br/>🚫 NOT VISIBLE<br/>(Don't even know it exists)"]
+        end
+        
+        subgraph YourTeamView2["👁️ What Your Team Sees"]
+            direction TB
+            YTV2["Component: APIConnect-Public<br/>━━━━━━━━━━━━━━━━<br/>Process: Publish ✓<br/><br/>Component: APIConnect-Internal<br/>━━━━━━━━━━━━━━━━<br/>Process: ZZ DONOTUSE... ✓<br/>Process: ZZ DONOTUSE... ✓<br/>Process: ZZ DONOTUSE... ✓<br/><br/>✓ Clean separation<br/>✓ Experiment freely"]
+        end
+        
+        CT2Team --> CT2Procs
+        CT3Team --> CT3Procs
+        CT2Procs --> AppTeamView2
+        CT3Procs --> AppTeamView2
+        CT2Procs --> YourTeamView2
+        CT3Procs --> YourTeamView2
+    end
+    
+    style Before fill:#ffe6e6,stroke:#cc0000,stroke-width:3px
+    style After fill:#e6ffe6,stroke:#00cc00,stroke-width:3px
+    
+    style CT1 fill:#ffcccc,stroke:#990000,stroke-width:2px
+    style CT2 fill:#ccffcc,stroke:#009900,stroke-width:2px
+    style CT3 fill:#ccffcc,stroke:#009900,stroke-width:2px
+    
+    style P1 fill:#90EE90,stroke:#006400,stroke-width:2px
+    style P2 fill:#FFB6C1,stroke:#8B0000,stroke-width:2px
+    style P3 fill:#FFB6C1,stroke:#8B0000,stroke-width:2px
+    style P4 fill:#FFB6C1,stroke:#8B0000,stroke-width:2px
+    
+    style P5 fill:#90EE90,stroke:#006400,stroke-width:2px
+    style P6 fill:#DDA0DD,stroke:#4B0082,stroke-width:2px
+    style P7 fill:#DDA0DD,stroke:#4B0082,stroke-width:2px
+    style P8 fill:#DDA0DD,stroke:#4B0082,stroke-width:2px
+    
+    style AppTeamView1 fill:#FFF9E6,stroke:#FFB900,stroke-width:2px
+    style YourTeamView1 fill:#E6F3FF,stroke:#0066CC,stroke-width:2px
+    style AppTeamView2 fill:#FFF9E6,stroke:#FFB900,stroke-width:2px
+    style YourTeamView2 fill:#E6F3FF,stroke:#0066CC,stroke-width:2px
+    style ATV2b fill:#f0f0f0,stroke:#999999,stroke-width:2px,stroke-dasharray: 5 5
